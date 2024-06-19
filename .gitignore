@@ -1,0 +1,79 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# NuGet Packages
+*.nupkg
+packages/
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.assets.json
+nuget.exe
+nuget.config
+
+# Visual Studio temporary files, project files with user-specific settings, and build results
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.pdb
+*.ilk
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+*.vs/
+*.vssscc
+*.vscode/
+*.idea/
+*.servicehub/
+*.dbmdl
+*.dbmdl_
+*.jfm
+*.tlog/
+*.vsix
+*.vsixmanifest
+*.vssettings
+*.vstemplate
+*.vstemplate_
+*.vsmdi
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# Rider (JetBrains) temporary files and directories
+.idea/
+*.sln.iml
+
+# User-specific files
+*.rsuser
+*.userosscache
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# .NET Core SDK-specific files
+.projectile
+.dotnettools.json

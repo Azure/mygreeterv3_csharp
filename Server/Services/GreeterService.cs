@@ -3,7 +3,7 @@ using Greet;
 
 namespace Greet.Services;
 
-public class GreeterService : Greeter.GreeterBase
+public class GreeterService : MyGreeter.MyGreeterBase
 {
     private readonly ILogger<GreeterService> _logger;
     public GreeterService(ILogger<GreeterService> logger)

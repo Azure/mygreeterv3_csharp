@@ -5,6 +5,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <IncludeHttpRuleProtos>true</IncludeHttpRuleProtos>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +16,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <Protobuf Include="..\Proto\greet.proto" GrpcServices="Client" />
+    <PackageReference Include="microsoft.aspnetcore.grpc.jsontranscoding" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.8.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="../Proto/**/*.proto" GrpcServices="Client" ProtoRoot="../Proto" />
   </ItemGroup>
 
 </Project>
