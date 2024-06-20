@@ -3,7 +3,7 @@ syntax = "proto3";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "buf/validate/validate.proto";
-// import "proto/log.proto";
+import "proto/log.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 // https://protobuf.dev/reference/go/go-generated/#package
@@ -11,8 +11,6 @@ option go_package = "dev.azure.com/service-hub-flg/service_hub/_git/service_hub.
 
 // More info on how to use REST api
 // https://cloud.google.com/endpoints/docs/grpc/transcoding#map_a_get_method
-
-package greet;
 
 // The greeting service definition.
 service MyGreeter {
@@ -139,11 +137,11 @@ message HelloRequest {
   int32 age = 2 [(buf.validate.field).int32 = {
     gte: 1,
     lt: 150
-  } ]; 
+  }, (servicehub.fieldoptions.loggable) = false]; 
   string email = 3 [(buf.validate.field).string = {
     min_len: 1,
     pattern: "^[\\w.-]+@[\\w.-]+\\.[\\w]{2,}$"
-  } ]; 
+  }, (servicehub.fieldoptions.loggable) = false]; 
   optional Address address = 4;
 }
 
@@ -153,12 +151,12 @@ message HelloReply {
 
 message Address {
   string city = 1 [(buf.validate.field).string.min_len = 1]; // The city name
-  string state = 2 [(buf.validate.field).string.min_len = 1 ]; // The state name
+  string state = 2 [(buf.validate.field).string.min_len = 1, (servicehub.fieldoptions.loggable) = false]; // The state name
   int32 zipcode = 3 [(buf.validate.field).int32 = {
     gte: 10000,
     lt: 99999
   }]; // The zip code
-  string street = 4 [(buf.validate.field).string.min_len = 1 ]; // The street name
+  string street = 4 [(buf.validate.field).string.min_len = 1, (servicehub.fieldoptions.loggable) = false]; // The street name
   
 }
 
