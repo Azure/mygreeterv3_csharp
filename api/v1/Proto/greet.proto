@@ -6,8 +6,7 @@ import "buf/validate/validate.proto";
 import "proto/log.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
-// https://protobuf.dev/reference/go/go-generated/#package
-option go_package = "dev.azure.com/service-hub-flg/service_hub/_git/service_hub.git/testing/canonical-output/mygreeterv3/api/v1";
+package greet;
 
 // More info on how to use REST api
 // https://cloud.google.com/endpoints/docs/grpc/transcoding#map_a_get_method
