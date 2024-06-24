@@ -4,13 +4,8 @@ using System.Threading.Tasks;
 using Greet;
 using Greet.Services;
 
-class Program
-{
-    static async Task Main(string[] args)
-    {
-        var rootCommand = new RootCommand("gRPC Service");
-        rootCommand.AddCommand(StartCommand.Create());
 
-        await rootCommand.InvokeAsync(args);
-    }
-}
+var rootCommand = new RootCommand("A brief description of your service");
+rootCommand.AddCommand(StartCommand.Execute());
+
+await rootCommand.InvokeAsync(args);

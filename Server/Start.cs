@@ -7,7 +7,7 @@ using System.CommandLine.NamingConventionBinder;
 
 public static class StartCommand
 {
-    public static Command Create()
+    public static Command Execute()
     {
         var portOption = new Option<int>(
             "--port",
