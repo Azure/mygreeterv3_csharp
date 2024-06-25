@@ -16,13 +16,11 @@ public class GreeterService : MyGreeter.MyGreeterBase
 
     public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
     {
-        _logger.LogInformation($"ServerOptions - Port: {_options.Port}");
-
-        Console.WriteLine(request.Name);
 
         return Task.FromResult(new HelloReply
         {
-            Message = "Hello " + request.Name + "on port " + _options.Port + "!"
+            Message = "Echo back what you sent me (SayHello): " + request.Name + " " + request.Age.ToString() + " " + request.Email
         });
+
     }
 }

@@ -1,9 +1,11 @@
-using Greet;
-using Greet.Services;
 using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
+
+using Greet;
+using Greet.Services;
+
 
 public static class StartCommand
 {
@@ -17,10 +19,6 @@ public static class StartCommand
             "--json-log",
             description: "The format of the log is json or user friendly key-value pairs",
             getDefaultValue: () => false);
-        var httpPortOption = new Option<int>(
-            "--http-port",
-            description: "the addr to serve the gRPC-Gateway on",
-            getDefaultValue: () => 50061);
         var remoteAddrOption = new Option<string>(
             "--remote-addr",
             description: "the demo server's addr for this server to connect to",
@@ -34,7 +32,6 @@ public static class StartCommand
         {
             portOption,
             jsonLogOption,
-            httpPortOption,
             remoteAddrOption,
             intervalMilliSecOption
         };

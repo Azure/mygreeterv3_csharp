@@ -6,12 +6,6 @@ public static class Server
 {
     public static async Task Serve(ServerOptions options)
     {
-        Console.WriteLine($"Port: {options.Port}");
-        Console.WriteLine($"JsonLog: {options.JsonLog}");
-        Console.WriteLine($"HTTPPort: {options.HTTPPort}");
-        Console.WriteLine($"RemoteAddr: {options.RemoteAddr}");
-        Console.WriteLine($"IntervalMilliSec: {options.IntervalMilliSec}");
-
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions
         {
             Args = new[] { "--urls", $"http://localhost:{options.Port}" }
