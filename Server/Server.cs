@@ -1,6 +1,7 @@
+using System.Threading.Tasks;
+
 using Greet;
 using Greet.Services;
-using System.Threading.Tasks;
 
 public static class Server
 {

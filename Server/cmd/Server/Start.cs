@@ -13,15 +13,19 @@ public static class StartCommand
     {
         var portOption = new Option<int>(
             "--port",
-            description: "the addr to serve the api on",
+            description: "The addr to serve the api on",
             getDefaultValue: () => 50051);
         var jsonLogOption = new Option<bool>(
             "--json-log",
             description: "The format of the log is json or user friendly key-value pairs",
             getDefaultValue: () => false);
+       var httpPortOption = new Option<int>(
+            "--http-port",
+            description: "the addr to serve the gRPC-Gateway on",
+            getDefaultValue: () => 50061);
         var remoteAddrOption = new Option<string>(
             "--remote-addr",
-            description: "the demo server's addr for this server to connect to",
+            description: "The demo server's addr for this server to connect to",
             getDefaultValue: () => string.Empty);
         var intervalMilliSecOption = new Option<long>(
             "--interval-milli-sec",
@@ -32,6 +36,7 @@ public static class StartCommand
         {
             portOption,
             jsonLogOption,
+            httpPortOption,
             remoteAddrOption,
             intervalMilliSecOption
         };
