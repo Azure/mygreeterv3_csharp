@@ -16,11 +16,9 @@ public class GreeterService : MyGreeter.MyGreeterBase
 
     public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
     {
-
         return Task.FromResult(new HelloReply
         {
             Message = "Echo back what you sent me (SayHello): " + request.Name + " " + request.Age.ToString() + " " + request.Email
         });
-
     }
 }

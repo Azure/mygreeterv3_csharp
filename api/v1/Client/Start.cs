@@ -81,7 +81,8 @@ public static class StartCommand
 
         // Create a gRPC channel
         using var channel = GrpcChannel.ForAddress($"http://{options.RemoteAddr}");
-        var client = new MyGreeter.MyGreeterClient(channel);
+        // var client = new MyGreeter.MyGreeterClient(channel);
+        var client = Client.NewClient(channel);
 
 
         if (options.IntervalMilliSec < 0)
