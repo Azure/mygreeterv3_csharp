@@ -79,10 +79,7 @@ public static class StartCommand
     public static async Task hello(ClientOptions options)
     {
 
-        // Create a gRPC channel
-        using var channel = GrpcChannel.ForAddress($"http://{options.RemoteAddr}");
-        var client = new MyGreeter.MyGreeterClient(channel);
-
+        var client = Client.NewClient(options);
 
         if (options.IntervalMilliSec < 0)
         {
