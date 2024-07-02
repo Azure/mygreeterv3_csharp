@@ -1,11 +1,17 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
 
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Formatting.Compact;
+
 using Greet;
 using Grpc.Net.Client;
+using Grpc.Core;
 
 public class ClientOptions
 {
@@ -79,9 +85,28 @@ public static class StartCommand
     public static async Task hello(ClientOptions options)
     {
 
-        // Create a gRPC channel
-        using var channel = GrpcChannel.ForAddress($"http://{options.RemoteAddr}");
-        var client = Client.NewClient(channel);
+        // Serilog configuration
+        var loggerConfiguration = new LoggerConfiguration()
+            .MinimumLevel.Information();
+
+        if (options.JsonLog)
+        {
+            loggerConfiguration = loggerConfiguration.WriteTo.Console(new CompactJsonFormatter());
+        }
+        else
+        {
+            loggerConfiguration = loggerConfiguration.WriteTo.Console();
+        }
+
+        Log.Logger = loggerConfiguration.CreateLogger();
+
+        // Create LoggerFactory and add Serilog to it
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddSerilog();
+        });
+
+        var client = Greet.Client.NewClient(options.RemoteAddr, loggerFactory);
 
         if (options.IntervalMilliSec < 0)
         {
@@ -129,11 +154,11 @@ public static class StartCommand
         try
         {
             var reply = await client.SayHelloAsync(request);
-            Console.WriteLine("Greeting: " + reply.Message);
+            Log.Information("Greeting: {Message}", reply.Message);
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            Log.Error("Error: {Message}", ex.Message);
         }
     }
 }

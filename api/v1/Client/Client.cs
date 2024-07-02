@@ -1,12 +1,23 @@
 using Grpc.Net.Client;
 using Greet;
+using Grpc.Core;
+using Grpc.Core.Interceptors;
+
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Formatting.Compact;
 
 namespace Greet
 {
     public static class Client
     {
-        public static MyGreeter.MyGreeterClient NewClient(GrpcChannel channel)
+        public static MyGreeter.MyGreeterClient NewClient(string remoteAddr, ILoggerFactory loggerFactory)
         {
+            var channel = GrpcChannel.ForAddress($"http://{remoteAddr}", new GrpcChannelOptions
+            {
+                LoggerFactory = loggerFactory
+            });
+
             return new MyGreeter.MyGreeterClient(channel);
         }
     }
