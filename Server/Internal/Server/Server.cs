@@ -9,6 +9,7 @@ using System.Globalization;
 
 using Greet;
 using Greet.Services;
+using ServerInterceptor;
 
 public static class Server
 {
@@ -40,9 +41,12 @@ public static class Server
         });
 
         // Add services to the container.
-        builder.Services.AddGrpc().AddJsonTranscoding();
-        
-        // Dependency injection
+        builder.Services.AddGrpc(options =>
+        {
+            options.Interceptors.Add<ServerLoggerInterceptor>();
+        }).AddJsonTranscoding();
+
+
         builder.Services.AddSingleton(options);
         builder.Services.AddSingleton(loggerFactory);
 

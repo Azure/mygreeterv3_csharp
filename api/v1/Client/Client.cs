@@ -1,5 +1,6 @@
 using Grpc.Net.Client;
 using Greet;
+using Client;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 
@@ -17,8 +18,9 @@ namespace Greet
             {
                 LoggerFactory = loggerFactory
             });
+            var invoker = channel.Intercept(new ClientLoggerInterceptor(loggerFactory));
 
-            return new MyGreeter.MyGreeterClient(channel);
+            return new MyGreeter.MyGreeterClient(invoker);
         }
     }
 }
