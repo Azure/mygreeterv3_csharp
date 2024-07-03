@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ADuke.Practice.Middleware" Version="1.0.0" />
+    <PackageReference Include="ADuke.Middleware.ListInterceptors" Version="1.0.0" />
     <PackageReference Include="Google.Protobuf" Version="3.27.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.63.0" />
     <PackageReference Include="Grpc.Tools" Version="2.64.0">

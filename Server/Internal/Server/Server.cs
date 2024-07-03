@@ -12,7 +12,7 @@ namespace Greet.Server {
     using Greet;
     using Greet.Services;
     using Greet.Server;
-    using ServerInterceptor;
+    using MiddlewareListInterceptors;
 
     public static class Server
     {
@@ -46,7 +46,12 @@ namespace Greet.Server {
             // Add services to the container.
             builder.Services.AddGrpc(options =>
             {
-                options.Interceptors.Add<ServerLoggerInterceptor>();
+                // Add your custom server interceptors
+                var serverInterceptors = InterceptorFactory.DefaultServerInterceptors(loggerFactory);
+                foreach (var interceptor in serverInterceptors)
+                {
+                    options.Interceptors.Add(interceptor.GetType());
+                }
             }).AddJsonTranscoding();
 
 

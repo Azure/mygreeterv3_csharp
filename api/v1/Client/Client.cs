@@ -1,12 +1,13 @@
 using Grpc.Net.Client;
 using Greet;
-using Client;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Formatting.Compact;
+
+using MiddlewareListInterceptors;
 
 namespace Greet.Client
 {
@@ -18,7 +19,7 @@ namespace Greet.Client
             {
                 LoggerFactory = loggerFactory
             });
-            var invoker = channel.Intercept(new ClientLoggerInterceptor(loggerFactory));
+            var invoker = channel.Intercept(InterceptorFactory.DefaultClientInterceptors(loggerFactory));
 
             return new MyGreeter.MyGreeterClient(invoker);
         }
