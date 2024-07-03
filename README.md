@@ -1,14 +1,17 @@
 # Project
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repository holds code for a sample MyGreeter service. 
 
-As the maintainer of this project, please make a few updates:
+# Usage
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+To run this service, it is necessary to generate a gRPC service from the ``api.proto`` file. To do this, navigate into the ``api/v1/`` directory and run the command ``dotnet build``. This will use the protoc compiler under the hood to compile the proto file, generating C# gRPC files in a directory called ``api/v1/obj/``. 
+
+To run the client and server, nagivate into the ``/Server/`` directory in two separate terminals, then run the following commands:
+
+
+```dotnet run --configuration Server start```
+
+```dotnet run --configuration Client hello```
 
 ## Contributing
 
