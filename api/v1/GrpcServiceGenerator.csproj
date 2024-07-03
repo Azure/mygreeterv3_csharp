@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <IncludeHttpRuleProtos>true</IncludeHttpRuleProtos>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ADuke.Practice.Middleware" Version="1.0.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.27.1" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.63.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.64.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="microsoft.aspnetcore.grpc.jsontranscoding" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.8.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Proto/**/*.proto" GrpcServices="Both" ProtoRoot="Proto" />
+  </ItemGroup>
+
+</Project>

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Formatting.Compact;
 
-namespace Greet
+namespace Greet.Client
 {
     public static class Client
     {

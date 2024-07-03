@@ -6,9 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
     <IncludeHttpRuleProtos>true</IncludeHttpRuleProtos>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ADuke.Practice.Middleware" Version="1.0.0" />
     <PackageReference Include="Google.Protobuf" Version="3.27.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.63.0" />
     <PackageReference Include="Grpc.Tools" Version="2.64.0">
@@ -17,7 +19,8 @@
     </PackageReference>
     <PackageReference Include="microsoft.aspnetcore.grpc.jsontranscoding" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.8.6" />
-    <PackageReference Include="MiddlewarePractice" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
     <PackageReference Include="Serilog" Version="4.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
@@ -27,7 +30,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="../api/v1/Proto/**/*.proto" GrpcServices="Server" ProtoRoot="../api/v1/Proto" />
+    <ProjectReference Include="..\api\v1\GrpcServiceGenerator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Client'">
+    <Compile Include="cmd\Client\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Server'">
+    <Compile Include="cmd\Server\*.cs" />
+    <Compile Include="Internal\Server\*.cs" />
   </ItemGroup>
 
 </Project>

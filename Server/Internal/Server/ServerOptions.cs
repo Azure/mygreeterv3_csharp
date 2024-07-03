@@ -1,3 +1,5 @@
+using Greet.Server;
+
 namespace Greet
 {
     public class ServerOptions

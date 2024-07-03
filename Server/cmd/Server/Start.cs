@@ -6,43 +6,45 @@ using System.CommandLine.NamingConventionBinder;
 using Greet;
 using Greet.Services;
 
-
-public static class StartCommand
+namespace Greet.Server 
 {
-    public static Command Execute()
+    public static class StartCommand
     {
-        var portOption = new Option<int>(
-            "--port",
-            description: "The addr to serve the api on",
-            getDefaultValue: () => 50051);
-        var jsonLogOption = new Option<bool>(
-            "--json-log",
-            description: "The format of the log is json or user friendly key-value pairs",
-            getDefaultValue: () => false);
-       var httpPortOption = new Option<int>(
-            "--http-port",
-            description: "the addr to serve the gRPC-Gateway on",
-            getDefaultValue: () => 50061);
-        var remoteAddrOption = new Option<string>(
-            "--remote-addr",
-            description: "The demo server's addr for this server to connect to",
-            getDefaultValue: () => string.Empty);
-        var intervalMilliSecOption = new Option<long>(
-            "--interval-milli-sec",
-            description: "The interval between two requests. Negative numbers mean sending one request.",
-            getDefaultValue: () => 0);
-
-        var startCommand = new Command("start", "Start the service")
+        public static Command Execute()
         {
-            portOption,
-            jsonLogOption,
-            httpPortOption,
-            remoteAddrOption,
-            intervalMilliSecOption
-        };
+            var portOption = new Option<int>(
+                "--port",
+                description: "The addr to serve the api on",
+                getDefaultValue: () => 50051);
+            var jsonLogOption = new Option<bool>(
+                "--json-log",
+                description: "The format of the log is json or user friendly key-value pairs",
+                getDefaultValue: () => false);
+        var httpPortOption = new Option<int>(
+                "--http-port",
+                description: "the addr to serve the gRPC-Gateway on",
+                getDefaultValue: () => 50061);
+            var remoteAddrOption = new Option<string>(
+                "--remote-addr",
+                description: "The demo server's addr for this server to connect to",
+                getDefaultValue: () => string.Empty);
+            var intervalMilliSecOption = new Option<long>(
+                "--interval-milli-sec",
+                description: "The interval between two requests. Negative numbers mean sending one request.",
+                getDefaultValue: () => 0);
 
-        startCommand.Handler = CommandHandler.Create<ServerOptions>(async (options) => await Server.Serve(options));
+            var startCommand = new Command("start", "Start the service")
+            {
+                portOption,
+                jsonLogOption,
+                httpPortOption,
+                remoteAddrOption,
+                intervalMilliSecOption
+            };
 
-        return startCommand;
+            startCommand.Handler = CommandHandler.Create<ServerOptions>(async (options) => await Server.Serve(options));
+
+            return startCommand;
+        }
     }
 }

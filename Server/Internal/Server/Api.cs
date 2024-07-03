@@ -1,5 +1,6 @@
 using Grpc.Core;
 using Greet;
+using Greet.Server;
 
 namespace Greet.Services;
 
