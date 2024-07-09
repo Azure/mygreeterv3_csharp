@@ -15,12 +15,9 @@ namespace Greet.Client
     {
         public static MyGreeter.MyGreeterClient NewClient(string remoteAddr, ClientInterceptorLogOptions options)
         {
-
-            Log.Logger = options.Logger;
-
             var channel = GrpcChannel.ForAddress($"http://{remoteAddr}", new GrpcChannelOptions
             {
-                LoggerFactory = new Serilog.Extensions.Logging.SerilogLoggerFactory(Log.Logger)
+                LoggerFactory = new Serilog.Extensions.Logging.SerilogLoggerFactory(options.Logger)
             });
             var invoker = channel.Intercept(InterceptorFactory.DefaultClientInterceptors(options));
 
