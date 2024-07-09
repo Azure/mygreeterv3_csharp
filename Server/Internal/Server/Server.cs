@@ -8,6 +8,7 @@ namespace Greet.Server {
     using Serilog.Formatting.Compact;
     using Serilog.Extensions.Logging;
     using System.Globalization;
+    using Microsoft.OpenApi.Models;
 
     using Greet;
     using Greet.Services;
@@ -54,11 +55,30 @@ namespace Greet.Server {
                 }
             }).AddJsonTranscoding();
 
+            builder.Services.AddGrpcSwagger();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo { Title = "gRPC transcoding", Version = "v1" });
+
+                var filePath = Path.Combine(AppContext.BaseDirectory, "GrpcGreeter.xml"); // Adjust as per your project setup
+                c.IncludeXmlComments(filePath);
+                c.IncludeGrpcXmlComments(filePath, includeControllerXmlComments: true);
+            });
 
             builder.Services.AddSingleton(options);
             builder.Services.AddSingleton(loggerFactory);
 
             var app = builder.Build();
+
+            app.UseSwagger();
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                });
+            }
 
             // Configure the HTTP request pipeline.
             app.MapGrpcService<GreeterService>();

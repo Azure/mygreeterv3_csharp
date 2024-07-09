@@ -3,7 +3,8 @@ syntax = "proto3";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "buf/validate/validate.proto";
-import "proto/log.proto";
+// import "proto/log.proto";
+import "ServiceHub.MyGreeterV3.LogProto/proto/log.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 package greet;
