@@ -3,16 +3,16 @@ namespace Greet.Server {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using Serilog;
-    using Serilog.Formatting.Compact;
     using Serilog.Extensions.Logging;
+    using Serilog.Formatting.Compact;
     using System.Globalization;
 
     using Greet;
     using Greet.Services;
     using Greet.Server;
     using MiddlewareListInterceptors;
+    using LogAttrs;
 
     public static class Server
     {
@@ -34,29 +34,23 @@ namespace Greet.Server {
             {
                 loggerConfiguration = loggerConfiguration.WriteTo.Console();
             }
-
             Log.Logger = loggerConfiguration.CreateLogger();
+            
+            builder.Services.AddSingleton<Serilog.ILogger>(Log.Logger);
+            builder.Services.AddSingleton(options);
 
-            // Create LoggerFactory and add Serilog to it
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddSerilog();
-            });
+            ServerInterceptorLogOptions interceptorOptions = InterceptorLogOptionsFactory.GetServerInterceptorLogOptions(Log.Logger, LogAttributes.GetAttrs());
 
             // Add services to the container.
             builder.Services.AddGrpc(options =>
             {
                 // Add your custom server interceptors
-                var serverInterceptors = InterceptorFactory.DefaultServerInterceptors(loggerFactory);
+                var serverInterceptors = InterceptorFactory.DefaultServerInterceptors(interceptorOptions);
                 foreach (var interceptor in serverInterceptors)
                 {
                     options.Interceptors.Add(interceptor.GetType());
                 }
             }).AddJsonTranscoding();
-
-
-            builder.Services.AddSingleton(options);
-            builder.Services.AddSingleton(loggerFactory);
 
             var app = builder.Build();
 
@@ -68,4 +62,3 @@ namespace Greet.Server {
         }
     }
 }
-

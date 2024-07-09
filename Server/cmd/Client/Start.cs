@@ -15,6 +15,9 @@ namespace Greet.Client {
     using Grpc.Net.Client;
     using Grpc.Core;
 
+    using MiddlewareListInterceptors;
+    using LogAttrs;
+
     public class ClientOptions
     {
         public string? RemoteAddr { get; set; }
@@ -102,13 +105,9 @@ namespace Greet.Client {
 
             Log.Logger = loggerConfiguration.CreateLogger();
 
-            // Create LoggerFactory and add Serilog to it
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddSerilog();
-            });
+            ClientInterceptorLogOptions interceptorOptions = InterceptorLogOptionsFactory.GetClientInterceptorLogOptions(Log.Logger, LogAttributes.GetAttrs());
 
-            var client = Greet.Client.Client.NewClient(options.RemoteAddr, loggerFactory);
+            var client = Greet.Client.Client.NewClient(options.RemoteAddr, interceptorOptions);
 
             if (options.IntervalMilliSec < 0)
             {
@@ -165,4 +164,3 @@ namespace Greet.Client {
         }
     }
 }
-
