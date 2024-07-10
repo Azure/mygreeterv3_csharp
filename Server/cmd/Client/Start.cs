@@ -92,7 +92,7 @@ namespace Greet.Client {
 
             // Serilog configuration
             var loggerConfiguration = new LoggerConfiguration()
-                .MinimumLevel.Information();
+                .Enrich.With<LogAttrs.CustomAttributeEnricher>();
 
             if (options.JsonLog)
             {
@@ -100,10 +100,12 @@ namespace Greet.Client {
             }
             else
             {
-                loggerConfiguration = loggerConfiguration.WriteTo.Console();
+                loggerConfiguration = loggerConfiguration.WriteTo.Console(outputTemplate: "{Timestamp} [{Level}] {Message} {CustomAttributes:lj}{NewLine}{Exception}");
             }
 
             Log.Logger = loggerConfiguration.CreateLogger();
+
+            LogAttributes.AddAttr("okkk", "lesgo");
 
             ClientInterceptorLogOptions interceptorOptions = InterceptorLogOptionsFactory.GetClientInterceptorLogOptions(Log.Logger, LogAttributes.GetAttrs());
 

@@ -25,7 +25,8 @@ namespace Greet.Server {
             });
 
             // Serilog configuration
-            var loggerConfiguration = new LoggerConfiguration();
+            var loggerConfiguration = new LoggerConfiguration()
+                .Enrich.With<LogAttrs.CustomAttributeEnricher>();
 
             if (options.JsonLog)
             {
@@ -33,9 +34,12 @@ namespace Greet.Server {
             }
             else
             {
-                loggerConfiguration = loggerConfiguration.WriteTo.Console();
+                loggerConfiguration = loggerConfiguration.WriteTo.Console(outputTemplate: "{Timestamp} [{Level}] {Message} {CustomAttributes:lj}{Properties}{NewLine}{Exception}");
             }
             Log.Logger = loggerConfiguration.CreateLogger();
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddSerilog(Log.Logger);
             
             builder.Services.AddSingleton<Serilog.ILogger>(Log.Logger);
             builder.Services.AddSingleton(options);
