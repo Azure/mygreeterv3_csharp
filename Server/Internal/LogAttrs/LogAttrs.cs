@@ -28,6 +28,7 @@ public static class LogAttributes
     {
         return FormatAttrs();
     }
+    
     public static List<KeyValuePair<string, object>> GetAttrs()
     {
         return attrs;
@@ -38,8 +39,10 @@ public class CustomAttributeEnricher : ILogEventEnricher
 {
     public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
     {
-        var attrs = LogAttributes.FormatAttrs();
-        var property = new LogEventProperty("CustomAttributes", new ScalarValue(attrs));
-        logEvent.AddOrUpdateProperty(property);
+        foreach (var attr in LogAttributes.GetAttrs())
+        {
+            var property = propertyFactory.CreateProperty(attr.Key, attr.Value);
+            logEvent.AddOrUpdateProperty(property);
+        }
     }
 }
