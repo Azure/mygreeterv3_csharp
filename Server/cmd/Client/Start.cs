@@ -105,8 +105,6 @@ namespace Greet.Client {
 
             Log.Logger = loggerConfiguration.CreateLogger();
 
-            LogAttributes.AddAttr("okkk", "lesgo");
-
             ClientInterceptorLogOptions interceptorOptions = InterceptorLogOptionsFactory.GetClientInterceptorLogOptions(Log.Logger, LogAttributes.GetAttrs());
 
             var client = Greet.Client.Client.NewClient(options.RemoteAddr, interceptorOptions);
