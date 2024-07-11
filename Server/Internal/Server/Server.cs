@@ -4,16 +4,31 @@ namespace Greet.Server {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
     using Serilog;
+    using Serilog.Context;
+    using Serilog.Events;
+    using System.Collections.Generic;
+    using Serilog.Core;
     using Serilog.Extensions.Logging;
     using Serilog.Formatting.Compact;
     using System.Globalization;
     using Microsoft.OpenApi.Models;
-
+    
     using Greet;
     using Greet.Services;
     using Greet.Server;
     using MiddlewareListInterceptors;
     using LogAttrs;
+
+    class RemovePropertiesEnricher : ILogEventEnricher
+    {
+        public void Enrich(LogEvent le, ILogEventPropertyFactory lepf)
+        {
+            le.RemovePropertyIfPresent("SourceContext");
+            le.RemovePropertyIfPresent("RequestId");
+            le.RemovePropertyIfPresent("RequestPath");
+            le.RemovePropertyIfPresent("ConnectionId");
+        }
+    }
 
     public static class Server
     {
@@ -26,6 +41,8 @@ namespace Greet.Server {
 
             // Serilog configuration
             var loggerConfiguration = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .Enrich.With(new RemovePropertiesEnricher())
                 .Enrich.With<LogAttrs.CustomAttributeEnricher>();
 
             if (options.JsonLog)
@@ -38,10 +55,16 @@ namespace Greet.Server {
             }
             Log.Logger = loggerConfiguration.CreateLogger();
 
+            Log.Logger = Log.Logger.ForContext("Permanent key", "permanent value");
+
             builder.Logging.ClearProviders();
             builder.Logging.AddSerilog(Log.Logger);
             
-            builder.Services.AddSingleton<Serilog.ILogger>(Log.Logger);
+            builder.Services.AddScoped<ILogger>(provider =>
+            {
+                var logger = Log.Logger;
+                return logger;
+            });
             builder.Services.AddSingleton(options);
 
             ServerInterceptorLogOptions interceptorOptions = InterceptorLogOptionsFactory.GetServerInterceptorLogOptions(Log.Logger, LogAttributes.GetAttrs());
