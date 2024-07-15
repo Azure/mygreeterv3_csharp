@@ -1,3 +1,5 @@
+syntax = "proto2";
+
 package servicehub.fieldoptions;
 option go_package = "buf.build/gen/go/service-hub/loggable/protocolbuffers/go/proto";
 // Import the google/protobuf/descriptor.proto file.
