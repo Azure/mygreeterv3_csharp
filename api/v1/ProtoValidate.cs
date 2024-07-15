@@ -7,6 +7,11 @@ using System;
 using Serilog;
 using System.Threading.Tasks;
 using Servicehub.Fieldoptions;
+using System.Collections.Concurrent;
+using ProtoValidate.Internal.Cel;
+using ProtoValidate.Internal.Evaluator;
+using ProtoValidate.Internal.Evaluator.Evaluator;
+using Cel;
 
 namespace MiddlewareListInterceptors
 {
@@ -58,35 +63,14 @@ namespace MiddlewareListInterceptors
             {
                 throw new ArgumentException("Unsupported message type");
             }
-            _logger.Information("WITHIN THE VALIDATION");
-
+            
             // Retrieve the file descriptor from the message descriptor
             var descriptor = message.Descriptor.File;
-
-            _logger.Information("Message Descriptor Name: {DescriptorName}", descriptor.Name);
-
-            foreach (var dependency in descriptor.Dependencies)
-            {
-                _logger.Information($"Dependency: {dependency.Name}");
-            }
-
-            foreach (var messageType in descriptor.MessageTypes)
-            {
-                _logger.Information($"Message Type: {messageType.Name}");
-            }
-
-            foreach (var service in descriptor.Services)
-            {
-                _logger.Information($"Service: {service.Name}");
-            }
-
-            string syntax = descriptor.Syntax.ToString();
-            _logger.Information($"Syntax: {syntax}");
 
             var validatorOptions = new ProtoValidate.ValidatorOptions()
             {
                 PreLoadDescriptors = false,
-                DisableLazy = true,
+                DisableLazy = false,
                 FileDescriptors = new List<FileDescriptor>
                 {
                     descriptor
