@@ -216,6 +216,7 @@ public class InterceptorFactory
 
         var interceptors = new Interceptor[]
         {
+            new ValidationInterceptor(logger),
             new RequestIdInterceptor(logger),
             new CtxLoggerInterceptor(logger),
             new ServerLoggerInterceptor(logger)

@@ -29,7 +29,6 @@
     <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
     <PackageReference Include="ServiceHub.MyGreeterV3.LogProto" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
-    <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
   </ItemGroup>
 

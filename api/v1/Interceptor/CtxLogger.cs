@@ -8,6 +8,8 @@ namespace MiddlewareListInterceptors;
 public class CtxLoggerInterceptor : Interceptor
 {
     private readonly Serilog.ILogger _logger;
+    private const string methodLogKey = "method";
+    private const string requestContentLogKey = "request";
 
     public CtxLoggerInterceptor(Serilog.ILogger logger)
     {
@@ -20,8 +22,8 @@ public class CtxLoggerInterceptor : Interceptor
         UnaryServerMethod<TRequest, TResponse> continuation)
     {
 
-        LogContext.PushProperty("method", context.Method);
-        LogContext.PushProperty("request", request, destructureObjects: true);
+        LogContext.PushProperty(methodLogKey, context.Method);
+        LogContext.PushProperty(requestContentLogKey, request, destructureObjects: true);
         _logger.Information("within the ctx logger!!");
 
         try

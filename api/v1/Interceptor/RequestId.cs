@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Serilog.Context;
+using Serilog;
 
 namespace MiddlewareListInterceptors;
 
@@ -14,9 +14,9 @@ public class RequestIdInterceptor : Interceptor
     public const string RequestIDMetadataKey = "x-request-id";
     public const string RequestIDLogKey = "request-id";
 
-    private readonly Serilog.ILogger _logger;
+    private readonly ILogger _logger;
 
-    public RequestIdInterceptor(Serilog.ILogger logger)
+    public RequestIdInterceptor(ILogger logger)
     {
         _logger = logger.ForContext("source", "RequestIdInterceptor");
     }
@@ -28,8 +28,8 @@ public class RequestIdInterceptor : Interceptor
     {
         context = GenerateRequestID(context);
 
-        LogContext.PushProperty("requestid", GetRequestID(context));
-        _logger.Information("inside the requestid interceptor");
+        LogContext.PushProperty(RequestIDLogKey, GetRequestID(context));
+        _logger.Information("Added requestid to context.");
         
         return await continuation(request, context);
 
@@ -48,10 +48,8 @@ public class RequestIdInterceptor : Interceptor
     private static string ShortID()
     {
         byte[] buffer = new byte[6];
-        using (var rng = new RNGCryptoServiceProvider())
-        {
-            rng.GetBytes(buffer);
-        }
+        Random random = new Random();
+        random.NextBytes(buffer);
         return Base64UrlEncode(buffer);
     }
 
