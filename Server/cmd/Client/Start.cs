@@ -92,6 +92,7 @@ namespace Greet.Client {
 
             // Serilog configuration
             var loggerConfiguration = new LoggerConfiguration()
+                .Enrich.FromLogContext()
                 .Enrich.With<LogAttrs.CustomAttributeEnricher>();
 
             if (options.JsonLog)
@@ -100,7 +101,7 @@ namespace Greet.Client {
             }
             else
             {
-                loggerConfiguration = loggerConfiguration.WriteTo.Console(outputTemplate: "{Timestamp} [{Level}] {Message} {CustomAttributes:lj}{NewLine}{Exception}");
+                loggerConfiguration = loggerConfiguration.WriteTo.Console(outputTemplate: "{Timestamp} [{Level}] {Message} {CustomAttributes:lj}{Properties}{NewLine}{Exception}");
             }
 
             Log.Logger = loggerConfiguration.CreateLogger();
