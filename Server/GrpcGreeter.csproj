@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <!-- <PackageReference Include="ADuke.ServiceHub.AKSMiddleware" Version="1.4.0" /> -->
-    <PackageReference Include="Google.Protobuf" Version="3.27.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.27.2" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.63.0" />
     <PackageReference Include="Grpc.Tools" Version="2.64.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

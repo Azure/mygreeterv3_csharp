@@ -1,6 +1,6 @@
 package servicehub.fieldoptions;
-option go_package = "buf.build/gen/go/service-hub/loggable/protocolbuffers/go/proto";
-// Import the google/protobuf/descriptor.proto file.
+option csharp_namespace = "ServiceHub.FieldOptions";
+
 import "google/protobuf/descriptor.proto";
 // Define a custom option for fields that indicates whether they should be logged or not
 extend google.protobuf.FieldOptions {
