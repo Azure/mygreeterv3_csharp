@@ -14,56 +14,29 @@ using System.Threading.Tasks;
 
 namespace MiddlewareListInterceptors;
 
-public class ClientInterceptorLogOptions
+public static class Constants
 {
-    public ILogger Logger { get; set; }
-    public TextWriter APIOutput { get; set; }
-    public List<KeyValuePair<string, object>> Attributes { get; set; }
-}
-
-public class ServerInterceptorLogOptions
-{
-    public ILogger Logger { get; set; }
-    public TextWriter APIOutput { get; set; }
-    public TextWriter CtxOutput { get; set; }
-    public List<KeyValuePair<string, object>> APIAttributes { get; set; }
-    public List<KeyValuePair<string, object>> CtxAttributes { get; set; }
-}
-
-public static class InterceptorLogOptionsFactory
-{
-    public static ClientInterceptorLogOptions GetClientInterceptorLogOptions(ILogger logger, List<KeyValuePair<string, object>> attrs)
-    {
-        return new ClientInterceptorLogOptions
-        {
-            Logger = logger,
-            APIOutput = Console.Out,
-            Attributes = attrs
-        };
-    }
-
-    public static ServerInterceptorLogOptions GetServerInterceptorLogOptions(ILogger logger, List<KeyValuePair<string, object>> attrs)
-    {
-        return new ServerInterceptorLogOptions
-        {
-            Logger = logger,
-            APIOutput = Console.Out,
-            CtxOutput = Console.Out,
-            APIAttributes = attrs,
-            CtxAttributes = attrs
-        };
-    }
+    public static readonly string[] SystemTag = { "protocol", "grpc" };
+    public const string ComponentFieldKey = "component";
+    public const string KindServerFieldValue = "server";
+    public const string KindClientFieldValue = "client";
+    public const string ServiceFieldKey = "service";
+    public const string MethodFieldKey = "method";
+    public const string MethodTypeFieldKey = "method_type";
+    public const string RequestIDMetadataKey = "x-request-id";
+    public const string RequestIDLogKey = "request-id";
+    public const string StartTimeKey = "start_time";
+    public const string TimeMsKey = "time_ms";
+    public const string StatusCodeKey = "code";
+    public const string PeerAddressKey = "peer_address";
 }
 
 
 public class InterceptorFactory
 {
 
-    public static Interceptor[] DefaultClientInterceptors(ClientInterceptorLogOptions options)
+    public static Interceptor[] DefaultClientInterceptors(ILogger logger)
     {
-
-        var logger = options.Logger;
-
         var interceptors = new Interceptor[]
         {
             new RetryInterceptor(),
@@ -74,11 +47,8 @@ public class InterceptorFactory
         return interceptors;
     }
 
-    public static Interceptor[] DefaultServerInterceptors(ServerInterceptorLogOptions options)
-    {
-
-        var logger = options.Logger;
-        
+    public static Interceptor[] DefaultServerInterceptors(ILogger logger)
+    {        
         var interceptors = new Interceptor[]
         {
             new ValidationInterceptor(logger),

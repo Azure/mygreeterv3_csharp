@@ -1,17 +1,23 @@
 namespace Greet.Server {
 
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Text.Json;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.OpenApi.Models;
     using Serilog;
     using Serilog.Context;
-    using Serilog.Events;
-    using System.Collections.Generic;
     using Serilog.Core;
+    using Serilog.Events;
     using Serilog.Extensions.Logging;
+    using Serilog.Formatting;
     using Serilog.Formatting.Compact;
-    using System.Globalization;
-    using Microsoft.OpenApi.Models;
+    using Serilog.Templates;
+
     
     using Greet;
     using Greet.Services;
@@ -47,7 +53,7 @@ namespace Greet.Server {
 
             if (options.JsonLog)
             {
-                loggerConfiguration = loggerConfiguration.WriteTo.Console(new CompactJsonFormatter());
+                loggerConfiguration = loggerConfiguration.WriteTo.Console(new ExpressionTemplate("{ {time: @t, level: @l, msg: @m, EX: @x, ..@p} }\n"));
             }
             else
             {
@@ -67,13 +73,11 @@ namespace Greet.Server {
             });
             builder.Services.AddSingleton(options);
 
-            ServerInterceptorLogOptions interceptorOptions = InterceptorLogOptionsFactory.GetServerInterceptorLogOptions(Log.Logger, LogAttributes.GetAttrs());
-
             // Add services to the container.
             builder.Services.AddGrpc(options =>
             {
                 // Add your custom server interceptors
-                var serverInterceptors = InterceptorFactory.DefaultServerInterceptors(interceptorOptions);
+                var serverInterceptors = InterceptorFactory.DefaultServerInterceptors(Log.Logger);
                 foreach (var interceptor in serverInterceptors)
                 {
                     options.Interceptors.Add(interceptor.GetType());

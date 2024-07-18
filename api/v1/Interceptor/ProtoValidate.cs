@@ -25,7 +25,7 @@ namespace MiddlewareListInterceptors
         {
             try
             {
-                _logger.Information("Starting validation for request of type {RequestType}", typeof(TRequest).Name);
+                // _logger.Information("Starting validation for request of type {RequestType}", typeof(TRequest).Name);
 
                 if (!ValidateMsg(request, out var error))
                 {
@@ -34,7 +34,7 @@ namespace MiddlewareListInterceptors
                     throw new RpcException(status);
                 }
 
-                _logger.Information("Validation successful for request of type {RequestType}", typeof(TRequest).Name);
+                // _logger.Information("Validation successful for request of type {RequestType}", typeof(TRequest).Name);
                 return await continuation(request, context);
             }
             catch (RpcException ex)
@@ -62,7 +62,7 @@ namespace MiddlewareListInterceptors
             {
                 PreLoadDescriptors = false,
                 DisableLazy = false,
-                FileDescriptors = new List<FileDescriptor>{ descriptor}
+                FileDescriptors = new List<FileDescriptor>{descriptor}
             };
 
             var validator = new ProtoValidate.Validator(validatorOptions);

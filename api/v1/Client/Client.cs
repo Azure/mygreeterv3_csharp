@@ -13,13 +13,13 @@ namespace Greet.Client
 {
     public static class Client
     {
-        public static MyGreeter.MyGreeterClient NewClient(string remoteAddr, ClientInterceptorLogOptions options)
+        public static MyGreeter.MyGreeterClient NewClient(string remoteAddr, ILogger logger)
         {
             var channel = GrpcChannel.ForAddress($"http://{remoteAddr}", new GrpcChannelOptions
             {
-                LoggerFactory = new Serilog.Extensions.Logging.SerilogLoggerFactory(options.Logger)
+                LoggerFactory = new Serilog.Extensions.Logging.SerilogLoggerFactory(logger)
             });
-            var invoker = channel.Intercept(InterceptorFactory.DefaultClientInterceptors(options));
+            var invoker = channel.Intercept(InterceptorFactory.DefaultClientInterceptors(logger));
 
             return new MyGreeter.MyGreeterClient(invoker);
         }

@@ -8,12 +8,10 @@ namespace MiddlewareListInterceptors;
 public class CtxLoggerInterceptor : Interceptor
 {
     private readonly Serilog.ILogger _logger;
-    private const string methodLogKey = "method";
-    private const string requestContentLogKey = "request";
 
     public CtxLoggerInterceptor(Serilog.ILogger logger)
     {
-        _logger = logger.ForContext("source", "CtxLog");
+        _logger = logger;
     }
 
     public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(
@@ -21,10 +19,12 @@ public class CtxLoggerInterceptor : Interceptor
         ServerCallContext context,
         UnaryServerMethod<TRequest, TResponse> continuation)
     {
+        // set source; can update with .PushProperty for entire service, or with .ForContext for limited scope
+        LogContext.PushProperty("source", "CtxLog");
 
-        LogContext.PushProperty(methodLogKey, context.Method);
-        LogContext.PushProperty(requestContentLogKey, request, destructureObjects: true);
-        _logger.Information("within the ctx logger!!");
+        // Note: creating a new ctxlogger to add things w/ ForContext (won't propagate to other interceptors)
+        var ctxLogger = _logger.ForContext(Constants.MethodFieldKey, context.Method);
+        ctxLogger.Information($"API handler logger output. req: {@request}");
 
         try
         {
@@ -32,9 +32,7 @@ public class CtxLoggerInterceptor : Interceptor
         }
         catch (Exception ex)
         {
-            // Note: The gRPC framework also logs exceptions thrown by handlers to .NET Core logging.
-            _logger.Error(ex, $"Error thrown by {context.Method}.");
-
+            ctxLogger.Error(ex, $"Error thrown by {context.Method}.");
             throw;
         }
     }

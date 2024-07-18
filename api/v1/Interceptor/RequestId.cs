@@ -11,9 +11,6 @@ namespace MiddlewareListInterceptors;
 
 public class RequestIdInterceptor : Interceptor
 {
-    public const string RequestIDMetadataKey = "x-request-id";
-    public const string RequestIDLogKey = "request-id";
-
     private readonly ILogger _logger;
 
     public RequestIdInterceptor(ILogger logger)
@@ -28,8 +25,9 @@ public class RequestIdInterceptor : Interceptor
     {
         context = GenerateRequestID(context);
 
-        LogContext.PushProperty(RequestIDLogKey, GetRequestID(context));
-        _logger.Information("Added requestid to context.");
+        var requestid = GetRequestID(context);
+
+        LogContext.PushProperty(Constants.RequestIDLogKey, requestid);
         
         return await continuation(request, context);
 
@@ -37,10 +35,10 @@ public class RequestIdInterceptor : Interceptor
 
     private static ServerCallContext GenerateRequestID(ServerCallContext context)
     {
-        if (context.RequestHeaders.GetValue(RequestIDMetadataKey) is null)
+        if (context.RequestHeaders.GetValue(Constants.RequestIDMetadataKey) is null)
         {
             string shortId = ShortID();
-            context.ResponseTrailers.Add(RequestIDMetadataKey, shortId);
+            context.ResponseTrailers.Add(Constants.RequestIDMetadataKey, shortId);
         }
         return context;
     }
@@ -63,8 +61,8 @@ public class RequestIdInterceptor : Interceptor
 
     public static string GetRequestID(ServerCallContext context)
     {
-        return context.RequestHeaders.GetValue(RequestIDMetadataKey) 
-           ?? context.ResponseTrailers.GetValue(RequestIDMetadataKey) 
+        return context.RequestHeaders.GetValue(Constants.RequestIDMetadataKey) 
+           ?? context.ResponseTrailers.GetValue(Constants.RequestIDMetadataKey) 
            ?? string.Empty;
     }
 }

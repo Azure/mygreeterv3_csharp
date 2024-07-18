@@ -10,6 +10,7 @@ namespace Greet.Client {
     using Microsoft.Extensions.Logging;
     using Serilog;
     using Serilog.Formatting.Compact;
+    using Serilog.Templates;
 
     using Greet;
     using Grpc.Net.Client;
@@ -97,7 +98,7 @@ namespace Greet.Client {
 
             if (options.JsonLog)
             {
-                loggerConfiguration = loggerConfiguration.WriteTo.Console(new CompactJsonFormatter());
+                loggerConfiguration = loggerConfiguration.WriteTo.Console(new ExpressionTemplate("{ {time: @t, level: @l, msg: @m, EX: @x, ..@p} }\n"));
             }
             else
             {
@@ -106,9 +107,7 @@ namespace Greet.Client {
 
             Log.Logger = loggerConfiguration.CreateLogger();
 
-            ClientInterceptorLogOptions interceptorOptions = InterceptorLogOptionsFactory.GetClientInterceptorLogOptions(Log.Logger, LogAttributes.GetAttrs());
-
-            var client = Greet.Client.Client.NewClient(options.RemoteAddr, interceptorOptions);
+            var client = Greet.Client.Client.NewClient(options.RemoteAddr, Log.Logger);
 
             if (options.IntervalMilliSec < 0)
             {
