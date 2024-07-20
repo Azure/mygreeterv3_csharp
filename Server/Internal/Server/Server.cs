@@ -17,7 +17,7 @@ namespace Greet.Server {
     using Serilog.Formatting;
     using Serilog.Formatting.Compact;
     using Serilog.Templates;
-
+    using System.Runtime.CompilerServices;
     
     using Greet;
     using Greet.Services;
@@ -33,6 +33,24 @@ namespace Greet.Server {
             le.RemovePropertyIfPresent("RequestId");
             le.RemovePropertyIfPresent("RequestPath");
             le.RemovePropertyIfPresent("ConnectionId");
+        }
+    }
+
+    public static class LoggerExtensions
+    {
+        public static ILogger WithCallerInformation(this ILogger logger,
+            [CallerFilePath] string callerFilePath = "",
+            [CallerLineNumber] int callerLineNumber = 0,
+            [CallerMemberName] string callerMemberName = "")
+        {
+            var location = new
+            {
+                function = callerMemberName,
+                file = callerFilePath,
+                line = callerLineNumber
+            };
+
+            return logger.ForContext("location", location, true);
         }
     }
 
@@ -53,15 +71,14 @@ namespace Greet.Server {
 
             if (options.JsonLog)
             {
-                loggerConfiguration = loggerConfiguration.WriteTo.Console(new ExpressionTemplate("{ {time: @t, level: @l, msg: @m, EX: @x, ..@p} }\n"));
+                loggerConfiguration = loggerConfiguration.WriteTo.Console(new ExpressionTemplate(
+                    "{ {time: @t, level: if @l = 'Information' then 'INFO' else if @l = 'Error' then 'ERROR' else if @l = 'Warning' then 'WARN' else if @l = 'Debug' then 'DEBUG' else if @l = 'Verbose' then 'VERBOSE' else if @l = 'Fatal' then 'FATAL' else @l, msg: @m, EX: @x, location: @Location, ..@p} }\n"));
             }
             else
             {
                 loggerConfiguration = loggerConfiguration.WriteTo.Console(outputTemplate: "{Timestamp} [{Level}] {Message} {CustomAttributes:lj}{Properties}{NewLine}{Exception}");
             }
             Log.Logger = loggerConfiguration.CreateLogger();
-
-            Log.Logger = Log.Logger.ForContext("Permanent key", "permanent value");
 
             builder.Logging.ClearProviders();
             builder.Logging.AddSerilog(Log.Logger);

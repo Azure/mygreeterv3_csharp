@@ -36,10 +36,7 @@ public class CtxLoggerInterceptor : Interceptor
         if (request is IMessage message)
         {
             var req = FilterLogs(message);
-            string reqJson = JsonConvert.SerializeObject(req);
-
             LogContext.PushProperty("request", req, destructureObjects: true);
-            _logger.Information($"API handler logger output. req: {reqJson}");
         }
 
         try

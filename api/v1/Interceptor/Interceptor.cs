@@ -54,7 +54,7 @@ public class InterceptorFactory
             new ValidationInterceptor(logger),
             new RequestIdInterceptor(logger),
             new CtxLoggerInterceptor(logger),
-            new ServerLoggerInterceptor(logger)
+            new ApiRequestLogInterceptor(logger)
         };
 
         return interceptors;

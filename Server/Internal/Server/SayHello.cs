@@ -2,6 +2,8 @@ using Grpc.Core;
 using System.Threading.Tasks;
 using Greet.Server;
 using Serilog;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Greet.Services;
 
@@ -9,7 +11,9 @@ public partial class GreeterService
 {
     public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
     {
-        Log.Logger.Information("SayHello method called with request: {@request}", request);
+        string reqJson = JsonConvert.SerializeObject(request);
+        Log.Logger.WithCallerInformation().Information($"API handler logger output. req: {reqJson}");
+
         return Task.FromResult(new HelloReply
         {
             Message = "Echo back what you sent me (SayHello): " + request.Name + " " + request.Age.ToString() + " " + request.Email
