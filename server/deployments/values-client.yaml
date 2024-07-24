@@ -15,14 +15,15 @@ serviceAccount:
   name: ""
 
 command:
-  - /client
+- dotnet
 
 args:
+  - client/GrpcGreeter.dll
   - hello
-  - --interval-milli-sec=60000
-  - --json-log
-  - --remote-addr=servicehub-mygreeterv3-server.servicehub-mygreeterv3-server:50051
-  - --http-addr=http://servicehub-mygreeterv3-server.servicehub-mygreeterv3-server.svc.cluster.local:50061
+  # - --interval-milli-sec=60000
+  # - --json-log
+  # - --remote-addr=servicehub-mygreeterv3-server.servicehub-mygreeterv3-server:50051
+  # - --http-addr=http://servicehub-mygreeterv3-server.servicehub-mygreeterv3-server.svc.cluster.local:50061
 
 # Info used for authorization policy
 allowedPrincipals: []

@@ -1,0 +1,80 @@
+{
+  "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/providers/Microsoft.Resources/deployments/DeleteResourceGroup-tyhmv4nvyg-deploy",
+  "location": "eastus",
+  "name": "DeleteResourceGroup-tyhmv4nvyg-deploy",
+  "properties": {
+    "correlationId": "0e42fa00-b091-41ae-b4cb-9ad7adffcc2b",
+    "debugSetting": null,
+    "dependencies": [],
+    "duration": "PT35.341019S",
+    "error": null,
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.Insights/scheduledQueryRules/mygreeterv3-DeleteResourceGroup-error-ratio",
+        "resourceGroup": "servicehub-tyhmv4nvyg-rg"
+      },
+      {
+        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.Insights/scheduledQueryRules/mygreeterv3-DeleteResourceGroup-latency-by-error-code",
+        "resourceGroup": "servicehub-tyhmv4nvyg-rg"
+      },
+      {
+        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.Insights/scheduledQueryRules/mygreeterv3-DeleteResourceGroup-query-per-second",
+        "resourceGroup": "servicehub-tyhmv4nvyg-rg"
+      }
+    ],
+    "outputs": null,
+    "parameters": {
+      "location": {
+        "type": "String",
+        "value": "eastus"
+      },
+      "resourceGroupName": {
+        "type": "String",
+        "value": "servicehub-tyhmv4nvyg-rg"
+      },
+      "resourcesName": {
+        "type": "String",
+        "value": "tyhmv4nvyg"
+      },
+      "subscriptionId": {
+        "type": "String",
+        "value": "8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8"
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Resources",
+        "providerAuthorizationConsentState": null,
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "deployments",
+            "zoneMappings": null
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "templateHash": "8407146125739569613",
+    "templateLink": null,
+    "timestamp": "2024-07-23T23:23:37.306291+00:00",
+    "validatedResources": null
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/deployments"
+}

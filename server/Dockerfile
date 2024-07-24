@@ -2,6 +2,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
+EXPOSE 50051
+
 # Copy the csproj files and restore as distinct layers
 COPY *.csproj ./
 RUN dotnet restore
@@ -24,4 +26,4 @@ COPY --from=build /app/client ./client
 COPY --from=build /app/server ./server
 
 # Set the entrypoint for the Server application
-ENTRYPOINT ["dotnet", "server/GrpcGreeter.dll"]
+# ENTRYPOINT ["dotnet"]

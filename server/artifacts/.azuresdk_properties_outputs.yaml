@@ -1,0 +1,3 @@
+serviceAccount:
+  annotations:
+    azure.workload.identity/client-id: "064abc77-83ed-4f61-9859-89435961b86d"
