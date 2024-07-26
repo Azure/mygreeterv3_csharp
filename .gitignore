@@ -77,3 +77,5 @@ Thumbs.db
 # .NET Core SDK-specific files
 .projectile
 .dotnettools.json
+
+server/.kube/config
