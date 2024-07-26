@@ -4,6 +4,7 @@ using Greet.Server;
 using Serilog;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog.Context;
 
 namespace Greet.Services;
 
@@ -12,7 +13,7 @@ public partial class GreeterService
     public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
     {
         string reqJson = JsonConvert.SerializeObject(request);
-        Log.Logger.WithCallerInformation().Information($"API handler logger output. req: {reqJson}");
+        Log.Logger.WithCtx(context).Information($"API handler logger output. req: {reqJson}");
 
         return Task.FromResult(new HelloReply
         {

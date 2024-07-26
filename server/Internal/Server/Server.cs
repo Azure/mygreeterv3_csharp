@@ -25,6 +25,9 @@ namespace Greet.Server {
     using MiddlewareListInterceptors;
     using LogAttrs;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
+    using Grpc.Core;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
     class RemovePropertiesEnricher : ILogEventEnricher
     {
@@ -39,11 +42,30 @@ namespace Greet.Server {
 
     public static class LoggerExtensions
     {
-        public static ILogger WithCallerInformation(this ILogger logger,
+        public static ILogger WithCtx(this ILogger logger, ServerCallContext context,
             [CallerFilePath] string callerFilePath = "",
             [CallerLineNumber] int callerLineNumber = 0,
             [CallerMemberName] string callerMemberName = "")
         {
+            // Extract JSON string from request headers
+            var json = context.RequestHeaders.GetValue("ctxlog-data");
+
+            // Deserialize the JSON string back to a dictionary with type information
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+
+            // Add dictionary properties to the log context
+            if (dictionary != null)
+            {
+                foreach (var kvp in dictionary)
+                {
+                    LogContext.PushProperty(kvp.Key, kvp.Value, destructureObjects: true);
+                }
+            }
+
+            // Add caller information to the log context
             var location = new
             {
                 function = callerMemberName,
