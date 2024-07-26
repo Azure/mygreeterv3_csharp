@@ -24,6 +24,7 @@ namespace Greet.Server {
     using Greet.Server;
     using MiddlewareListInterceptors;
     using LogAttrs;
+    using Microsoft.Extensions.Diagnostics.HealthChecks;
 
     class RemovePropertiesEnricher : ILogEventEnricher
     {
@@ -60,7 +61,15 @@ namespace Greet.Server {
         {
             var builder = WebApplication.CreateBuilder(new WebApplicationOptions
             {
-                Args = new[] { "--urls", $"http://localhost:{options.Port}" }
+                Args = new[] { "--urls", $"http://0.0.0.0:{options.Port}" }
+            });
+
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.ListenAnyIP(options.Port, listenOptions =>
+                {
+                    listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2; // Enforce HTTP/2
+                });
             });
 
             // Serilog configuration
@@ -101,6 +110,8 @@ namespace Greet.Server {
                 }
             }).AddJsonTranscoding();
 
+            builder.Services.AddGrpcHealthChecks()
+                            .AddCheck("GreeterServer", () => HealthCheckResult.Healthy());
             builder.Services.AddGrpcSwagger();
             builder.Services.AddSwaggerGen(c =>
             {
@@ -125,6 +136,7 @@ namespace Greet.Server {
 
             // Configure the HTTP request pipeline.
             app.MapGrpcService<GreeterService>();
+            app.MapGrpcHealthChecksService();
             app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
             await app.RunAsync();

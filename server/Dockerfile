@@ -24,6 +24,3 @@ WORKDIR /app
 # Copy the published Client and Server binaries
 COPY --from=build /app/client ./client
 COPY --from=build /app/server ./server
-
-# Set the entrypoint for the Server application
-# ENTRYPOINT ["dotnet"]

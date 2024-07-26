@@ -20,7 +20,7 @@ namespace Greet.Server
                 "--json-log",
                 description: "The format of the log is json or user friendly key-value pairs",
                 getDefaultValue: () => false);
-        var httpPortOption = new Option<int>(
+            var httpPortOption = new Option<int>(
                 "--http-port",
                 description: "the addr to serve the gRPC-Gateway on",
                 getDefaultValue: () => 50061);

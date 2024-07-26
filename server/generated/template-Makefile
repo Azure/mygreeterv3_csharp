@@ -14,20 +14,17 @@ connect-cluster:
 
 build-image:
 	set -e; \
-	<<- if contains .envInformation.goModuleNamePrefix "dev.azure.com">>
 	if [ -z "$(READ_PAT)" ]; then \
 		echo "READ_PAT does not exist. Please rerun the command with this variable"; \
 		exit 1; \
 	fi; \
 	docker build --build-arg PAT=$(READ_PAT) \
-	-t servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/<<.serviceInput.directoryName>> -f ../Dockerfile ./../; \
-	<<- else>>docker build --build-arg AKS_GOPROXY_TOKEN --build-arg GOPROXY --build-arg GOPRIVATE --build-arg GONOPROXY \
-	-t servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/<<.serviceInput.directoryName>> -f ../Dockerfile ./../; \<<end>>
-	docker save -o <<.serviceInput.directoryName>>-image.tar servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/<<.serviceInput.directoryName>>; \
+	-t servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3_csharp -f ../Dockerfile ./../; \
+	docker save -o mygreeterv3_csharp-image.tar servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3_csharp; \
 
 push-image:
 	set -e; \
 	az acr login --name servicehub{{.resourcesName}}{{.location}}acr.azurecr.io; \
-	docker load -i <<.serviceInput.directoryName>>-image.tar; \
-	docker push servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/<<.serviceInput.directoryName>>; \
-	rm <<.serviceInput.directoryName>>-image.tar;
+	docker load -i mygreeterv3_csharp-image.tar; \
+	docker push servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3_csharp; \
+	rm mygreeterv3_csharp-image.tar;
