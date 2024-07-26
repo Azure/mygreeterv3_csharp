@@ -1,33 +1,26 @@
 namespace Greet.Server {
 
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
-    using System.Linq;
-    using System.Text.Json;
-    using System.Threading.Tasks;
+    using System.Runtime.CompilerServices;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.OpenApi.Models;
+    using Microsoft.Extensions.Diagnostics.HealthChecks;
     using Serilog;
     using Serilog.Context;
     using Serilog.Core;
     using Serilog.Events;
-    using Serilog.Extensions.Logging;
-    using Serilog.Formatting;
-    using Serilog.Formatting.Compact;
     using Serilog.Templates;
-    using System.Runtime.CompilerServices;
+    using Grpc.Core;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
     
     using Greet;
     using Greet.Services;
     using Greet.Server;
     using MiddlewareListInterceptors;
     using LogAttrs;
-    using Microsoft.Extensions.Diagnostics.HealthChecks;
-    using Grpc.Core;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
 
     class RemovePropertiesEnricher : ILogEventEnricher
     {

@@ -10,7 +10,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>bin\GrpcGreeter.xml</DocumentationFile>
     <PackageId>ServiceHub.MyGreeterV3.ApiV1</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Author>ADuke</Author>
     <Product>ApiV1</Product>
   </PropertyGroup>
