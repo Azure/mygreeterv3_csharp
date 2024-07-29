@@ -43,6 +43,12 @@ namespace Greet.Server {
             // Extract JSON string from request headers
             var json = context.RequestHeaders.GetValue("ctxlog-data");
 
+            // Check if json is null or empty
+            if (string.IsNullOrEmpty(json))
+            {
+                return logger;
+            }
+
             // Deserialize the JSON string back to a dictionary with type information
             var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings
             {
@@ -93,6 +99,8 @@ namespace Greet.Server {
                 .Enrich.With(new RemovePropertiesEnricher())
                 .Enrich.With<LogAttrs.CustomAttributeEnricher>();
 
+            // using Serilog ExpressionTemplate
+            // https://github.com/serilog/serilog-expressions?tab=readme-ov-file#formatting-with-expressiontemplate
             if (options.JsonLog)
             {
                 loggerConfiguration = loggerConfiguration.WriteTo.Console(new ExpressionTemplate(
@@ -133,7 +141,7 @@ namespace Greet.Server {
                 c.SwaggerDoc("v1",
                     new OpenApiInfo { Title = "gRPC transcoding", Version = "v1" });
 
-                var filePath = Path.Combine(AppContext.BaseDirectory, "GrpcGreeter.xml"); // Adjust as per your project setup
+                var filePath = Path.Combine(AppContext.BaseDirectory, "GrpcGreeter.xml");
                 c.IncludeXmlComments(filePath);
                 c.IncludeGrpcXmlComments(filePath, includeControllerXmlComments: true);
             });

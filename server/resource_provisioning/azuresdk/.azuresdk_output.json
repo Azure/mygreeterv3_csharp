@@ -1,57 +1,57 @@
 {
-  "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/providers/Microsoft.Resources/deployments/azuresdk-tyhmv4nvyg-deploy",
+  "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/providers/Microsoft.Resources/deployments/azuresdk-clagx80475-deploy",
   "location": "eastus",
-  "name": "azuresdk-tyhmv4nvyg-deploy",
+  "name": "azuresdk-clagx80475-deploy",
   "properties": {
-    "correlationId": "e1feaa5f-1464-40e3-806b-163c64b4418c",
+    "correlationId": "e159e729-33b9-457a-a4a8-a69387fdb5ec",
     "debugSetting": null,
     "dependencies": [
       {
         "dependsOn": [
           {
-            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.Resources/deployments/servicehub-tyhmv4nvyg-clusterDeploy",
-            "resourceGroup": "servicehub-tyhmv4nvyg-rg",
-            "resourceName": "servicehub-tyhmv4nvyg-clusterDeploy",
+            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg/providers/Microsoft.Resources/deployments/servicehub-clagx80475-clusterDeploy",
+            "resourceGroup": "servicehub-clagx80475-rg",
+            "resourceName": "servicehub-clagx80475-clusterDeploy",
             "resourceType": "Microsoft.Resources/deployments"
           },
           {
             "apiVersion": "2021-04-01",
-            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg",
-            "resourceName": "servicehub-tyhmv4nvyg-rg",
+            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg",
+            "resourceName": "servicehub-clagx80475-rg",
             "resourceType": "Microsoft.Resources/resourceGroups"
           },
           {
             "apiVersion": "2022-09-01",
-            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.Resources/deployments/servicehub-tyhmv4nvyg-clusterDeploy",
-            "resourceGroup": "servicehub-tyhmv4nvyg-rg",
-            "resourceName": "servicehub-tyhmv4nvyg-clusterDeploy",
+            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg/providers/Microsoft.Resources/deployments/servicehub-clagx80475-clusterDeploy",
+            "resourceGroup": "servicehub-clagx80475-rg",
+            "resourceName": "servicehub-clagx80475-clusterDeploy",
             "resourceType": "Microsoft.Resources/deployments"
           }
         ],
-        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.Resources/deployments/servicehub-mygreeterv3-managed-identityDeploy",
-        "resourceGroup": "servicehub-tyhmv4nvyg-rg",
+        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg/providers/Microsoft.Resources/deployments/servicehub-mygreeterv3-managed-identityDeploy",
+        "resourceGroup": "servicehub-clagx80475-rg",
         "resourceName": "servicehub-mygreeterv3-managed-identityDeploy",
         "resourceType": "Microsoft.Resources/deployments"
       },
       {
         "dependsOn": [
           {
-            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.Resources/deployments/servicehub-mygreeterv3-managed-identityDeploy",
-            "resourceGroup": "servicehub-tyhmv4nvyg-rg",
+            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg/providers/Microsoft.Resources/deployments/servicehub-mygreeterv3-managed-identityDeploy",
+            "resourceGroup": "servicehub-clagx80475-rg",
             "resourceName": "servicehub-mygreeterv3-managed-identityDeploy",
             "resourceType": "Microsoft.Resources/deployments"
           },
           {
             "apiVersion": "2022-09-01",
-            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.Resources/deployments/servicehub-mygreeterv3-managed-identityDeploy",
-            "resourceGroup": "servicehub-tyhmv4nvyg-rg",
+            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg/providers/Microsoft.Resources/deployments/servicehub-mygreeterv3-managed-identityDeploy",
+            "resourceGroup": "servicehub-clagx80475-rg",
             "resourceName": "servicehub-mygreeterv3-managed-identityDeploy",
             "resourceType": "Microsoft.Resources/deployments"
           },
           {
             "apiVersion": "2021-04-01",
-            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg",
-            "resourceName": "servicehub-tyhmv4nvyg-rg",
+            "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg",
+            "resourceName": "servicehub-clagx80475-rg",
             "resourceType": "Microsoft.Resources/resourceGroups"
           }
         ],
@@ -60,27 +60,27 @@
         "resourceType": "Microsoft.Resources/deployments"
       }
     ],
-    "duration": "PT1M6.9134357S",
+    "duration": "PT1M6.8371526S",
     "error": null,
     "mode": "Incremental",
     "onErrorDeployment": null,
     "outputResources": [
       {
-        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/providers/Microsoft.Authorization/roleAssignments/7bc4a598-f505-5a3d-a694-6b02f8c30bbf"
+        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/providers/Microsoft.Authorization/roleAssignments/4e5c148e-05ed-528d-a941-4b75b0514a93"
       },
       {
-        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/servicehub-mygreeterv3-managedIdentity",
-        "resourceGroup": "servicehub-tyhmv4nvyg-rg"
+        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/servicehub-mygreeterv3-managedIdentity",
+        "resourceGroup": "servicehub-clagx80475-rg"
       },
       {
-        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-tyhmv4nvyg-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/servicehub-mygreeterv3-managedIdentity/federatedIdentityCredentials/servicehub-mygreeterv3-fedIdentity",
-        "resourceGroup": "servicehub-tyhmv4nvyg-rg"
+        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/servicehub-mygreeterv3-managedIdentity/federatedIdentityCredentials/servicehub-mygreeterv3-fedIdentity",
+        "resourceGroup": "servicehub-clagx80475-rg"
       }
     ],
     "outputs": {
       "clientId": {
         "type": "String",
-        "value": "064abc77-83ed-4f61-9859-89435961b86d"
+        "value": "9fd39a94-2719-44b0-8bae-35c6b925147f"
       }
     },
     "parameters": {
@@ -90,11 +90,11 @@
       },
       "resourceGroupName": {
         "type": "String",
-        "value": "servicehub-tyhmv4nvyg-rg"
+        "value": "servicehub-clagx80475-rg"
       },
       "resourcesName": {
         "type": "String",
-        "value": "tyhmv4nvyg"
+        "value": "clagx80475"
       },
       "subscriptionId": {
         "type": "String",
@@ -131,7 +131,7 @@
     "provisioningState": "Succeeded",
     "templateHash": "15478105471039385591",
     "templateLink": null,
-    "timestamp": "2024-07-23T23:24:08.873255+00:00",
+    "timestamp": "2024-07-29T16:44:26.840463+00:00",
     "validatedResources": null
   },
   "tags": null,

@@ -19,7 +19,7 @@ command:
   - dotnet
 
 args:
-  - server/MyGreeter.Server.dll
+  - server/GrpcGreeter.dll
   - start
   - --json-log
   - --remote-addr=servicehub-mygreeterv3-demoserver.servicehub-mygreeterv3-demoserver:50071

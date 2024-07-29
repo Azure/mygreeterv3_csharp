@@ -16,7 +16,7 @@ serviceAccount:
   name: ""
 
 command:
-- dotnet
+  - dotnet
 
 args:
   - server/GrpcGreeter.dll

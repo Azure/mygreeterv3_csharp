@@ -41,7 +41,7 @@ ingress:
   #      - chart-example.local
 
 image:
-  repository: servicehubtyhmv4nvygeastusacr.azurecr.io/mygreeterv3_csharp
+  repository: servicehubclagx80475eastusacr.azurecr.io/mygreeterv3_csharp
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: latest

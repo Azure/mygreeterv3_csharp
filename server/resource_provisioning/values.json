@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "resourcesName": {
-            "value": "tyhmv4nvyg"
+            "value": "clagx80475"
         },
         "subscriptionId": {
             "value": "8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8"
@@ -12,7 +12,7 @@
             "value": "eastus"
         },
         "resourceGroupName": {
-            "value": "servicehub-tyhmv4nvyg-rg"
+            "value": "servicehub-clagx80475-rg"
         }
     }
 }
