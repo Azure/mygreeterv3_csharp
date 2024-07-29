@@ -20,6 +20,14 @@ namespace Greet.Server
                 "--json-log",
                 description: "The format of the log is json or user friendly key-value pairs",
                 getDefaultValue: () => false);
+            var subscriptionIDOption = new Option<string>(
+                "--subscription-id",
+                description: "The subscription ID to connect to",
+                getDefaultValue: () => string.Empty);
+            var enableAzureSDKCallsOption = new Option<bool>(
+                "--enable-azureSDK-calls",
+                description: "Toggle to run Azure SDK CRUDL calls if cluster is enabled with workload-id",
+                getDefaultValue: () => false);
             var httpPortOption = new Option<int>(
                 "--http-port",
                 description: "the addr to serve the gRPC-Gateway on",
@@ -32,14 +40,21 @@ namespace Greet.Server
                 "--interval-milli-sec",
                 description: "The interval between two requests. Negative numbers mean sending one request.",
                 getDefaultValue: () => 0);
+            var identityResourceIDOption = new Option<string>(
+                "--identity-resource-id",
+                description: "The MSI used to authenticate to Azure from E2E env",
+                getDefaultValue: () => string.Empty);
 
             var startCommand = new Command("start", "Start the service")
             {
                 portOption,
                 jsonLogOption,
+                subscriptionIDOption,
+                enableAzureSDKCallsOption,
                 httpPortOption,
                 remoteAddrOption,
-                intervalMilliSecOption
+                intervalMilliSecOption,
+                identityResourceIDOption
             };
 
             startCommand.Handler = CommandHandler.Create<ServerOptions>(async (options) => await Server.Serve(options));

@@ -41,6 +41,11 @@ namespace Greet.Client {
                 description: "The remote server's addr for this client to connect to",
                 getDefaultValue: () => "localhost:50051");
 
+            var httpAddrOption = new Option<string>(
+                "--http-addr",
+                description: "The remote HTTP gateway addr",
+                getDefaultValue: () => "http://localhost:50061");
+
             var jsonLogOption = new Option<bool>(
                 "--json-log",
                 description: "The format of the log is json or user friendly key-value pairs",
@@ -71,22 +76,40 @@ namespace Greet.Client {
                 description: "The interval between two requests. Negative numbers mean sending one request.",
                 getDefaultValue: () => -1);
 
+            var rgNameOption = new Option<string>(
+                "--rg-name",
+                description: "The name of the resource group",
+                getDefaultValue: () => "MyGreeter-resource-group");
+
+            var rgRegionOption = new Option<string>(
+                "--rg-region",
+                description: "The region of the resource group",
+                getDefaultValue: () => "eastus");
+
+            var callAllRgOpsOption = new Option<bool>(
+                "--call-all-rg-ops",
+                description: "Call all resource group operations",
+                getDefaultValue: () => true);
+
             var startCommand = new Command("hello", "Call SayHello")
             {
                 remoteAddrOption,
+                httpAddrOption,
                 jsonLogOption,
                 nameOption,
                 ageOption,
                 emailOption,
                 addressOption,
-                intervalMilliSecOption
+                intervalMilliSecOption,
+                rgNameOption,
+                rgRegionOption,
+                callAllRgOpsOption
             };
 
             startCommand.Handler = CommandHandler.Create<ClientOptions>(hello);
 
             return startCommand;
         }
-
 
         public static async Task hello(ClientOptions options)
         {

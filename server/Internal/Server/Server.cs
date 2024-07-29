@@ -33,49 +33,6 @@ namespace Greet.Server {
         }
     }
 
-    public static class LoggerExtensions
-    {
-        public static ILogger WithCtx(this ILogger logger, ServerCallContext context,
-            [CallerFilePath] string callerFilePath = "",
-            [CallerLineNumber] int callerLineNumber = 0,
-            [CallerMemberName] string callerMemberName = "")
-        {
-            // Extract JSON string from request headers
-            var json = context.RequestHeaders.GetValue("ctxlog-data");
-
-            // Check if json is null or empty
-            if (string.IsNullOrEmpty(json))
-            {
-                return logger;
-            }
-
-            // Deserialize the JSON string back to a dictionary with type information
-            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
-
-            // Add dictionary properties to the log context
-            if (dictionary != null)
-            {
-                foreach (var kvp in dictionary)
-                {
-                    LogContext.PushProperty(kvp.Key, kvp.Value, destructureObjects: true);
-                }
-            }
-
-            // Add caller information to the log context
-            var location = new
-            {
-                function = callerMemberName,
-                file = callerFilePath,
-                line = callerLineNumber
-            };
-
-            return logger.ForContext("location", location, true);
-        }
-    }
-
     public static class Server
     {
         public static async Task Serve(ServerOptions options)
