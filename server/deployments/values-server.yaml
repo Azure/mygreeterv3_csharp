@@ -21,7 +21,7 @@ command:
 args:
   - server/GrpcGreeter.dll
   - start
-  # - --json-log
+  - --json-log=true
   # - --remote-addr=servicehub-mygreeterv3-demoserver.servicehub-mygreeterv3-demoserver:50071
   # - --enable-azureSDK-calls=true
   # - --subscription-id=8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8
