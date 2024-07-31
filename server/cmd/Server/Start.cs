@@ -20,7 +20,7 @@ namespace Greet.Server
                 "--json-log",
                 description: "The format of the log is json or user friendly key-value pairs",
                 getDefaultValue: () => false);
-            var subscriptionIDOption = new Option<string>(
+            var subscriptionIdOption = new Option<string>(
                 "--subscription-id",
                 description: "The subscription ID to connect to",
                 getDefaultValue: () => string.Empty);
@@ -49,7 +49,7 @@ namespace Greet.Server
             {
                 portOption,
                 jsonLogOption,
-                subscriptionIDOption,
+                subscriptionIdOption,
                 enableAzureSDKCallsOption,
                 httpPortOption,
                 remoteAddrOption,

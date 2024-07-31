@@ -29,6 +29,9 @@ namespace Greet.Client {
         public string? Email { get; set; }
         public string? Address { get; set; }
         public long IntervalMilliSec { get; set; }
+        public string? RgName { get; set; }
+        public string? RgRegion { get; set; }
+        public bool CallAllRgOps { get; set; }
     }
 
 
@@ -134,19 +137,19 @@ namespace Greet.Client {
 
             if (options.IntervalMilliSec < 0)
             {
-                await SayHello(client, options.Name, options.Age, options.Email, options.Address);
+                await SayHello(client, options.Name, options.Age, options.Email, options.Address, options);
             }
             else
             {
                 while (true)
                 {
-                    await SayHello(client, options.Name, options.Age, options.Email, options.Address);
+                    await SayHello(client, options.Name, options.Age, options.Email, options.Address, options);
                     await Task.Delay((int)options.IntervalMilliSec);
                 }
             }
         }
 
-        private static async Task SayHello(MyGreeter.MyGreeterClient client, string name, int age, string email, string address)
+        private static async Task SayHello(MyGreeter.MyGreeterClient client, string name, int age, string email, string address, ClientOptions options)
         {
 
             string[] addressParts = address.Split(',');
@@ -167,7 +170,7 @@ namespace Greet.Client {
             };
 
             // Prepare HelloRequest
-            var request = new HelloRequest
+            var helloRequest = new HelloRequest
             {
                 Name = name,
                 Age = age,
@@ -177,13 +180,31 @@ namespace Greet.Client {
 
             try
             {
-                var reply = await client.SayHelloAsync(request);
+                var reply = await client.SayHelloAsync(helloRequest);
                 Log.Information("Greeting: {Message}", reply.Message);
             }
             catch (Exception ex)
             {
                 Log.Error("Error: {Message}", ex.Message);
             }
+
+            try
+            {
+                var reply = await client.CreateResourceGroupAsync(new CreateResourceGroupRequest
+                {
+                    Name = options.RgName,
+                    Region = options.RgRegion
+                });
+
+                Log.Information("Resource Group reponse received: {reply}", reply);
+            }
+
+            catch (Exception ex)
+            {
+                Log.Error("Error: {Message}", ex.Message);
+            }
+
+
         }
     }
 }

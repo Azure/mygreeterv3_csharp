@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Core" Version="1.41.0" />
+    <PackageReference Include="Azure.Identity" Version="1.12.0" />
+    <PackageReference Include="Azure.Provisioning.Resources" Version="0.2.0" />
+    <PackageReference Include="Azure.ResourceManager" Version="1.12.0" />
+    <PackageReference Include="Azure.ResourceManager.Compute" Version="1.5.0" />
+    <PackageReference Include="Azure.ResourceManager.Resources" Version="1.8.0" />
+    <PackageReference Include="Azure.ResourceManager.Storage" Version="1.3.0" />
     <PackageReference Include="Google.Protobuf" Version="3.27.2" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.63.0" />
     <PackageReference Include="Grpc.AspNetCore.HealthChecks" Version="2.64.0" />
@@ -30,7 +37,7 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageReference Include="ServiceHub.MyGreeterV3.ApiV1" Version="1.0.3" />
+    <PackageReference Include="ServiceHub.MyGreeterV3.ApiV1" Version="1.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1" />
