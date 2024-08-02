@@ -16,7 +16,7 @@ namespace Greet.Client {
     using Grpc.Net.Client;
     using Grpc.Core;
 
-    using MiddlewareListInterceptors;
+    using AKSMiddleware;
     using LogAttrs;
 
     public class ClientOptions
@@ -134,18 +134,18 @@ namespace Greet.Client {
 
             Log.Logger = loggerConfiguration.CreateLogger();
 
-            var client = Greet.Client.Client.NewClient(options.RemoteAddr, Log.Logger);
+            var client = Greet.Client.Client.NewClient(options.RemoteAddr!, Log.Logger);
 
             if (options.IntervalMilliSec < 0)
             {
-                await SayHello(client, options.Name, options.Age, options.Email, options.Address, options);
+                await SayHello(client, options.Name!, options.Age!, options.Email!, options.Address!, options);
             }
             else
             {
                 while (true)
                 {
-                    await SayHello(client, options.Name, options.Age, options.Email, options.Address, options);
-                    await Task.Delay((int)options.IntervalMilliSec);
+                    await SayHello(client, options.Name!, options.Age!, options.Email!, options.Address!, options);
+                    await Task.Delay((int)options.IntervalMilliSec!);
                 }
             }
         }

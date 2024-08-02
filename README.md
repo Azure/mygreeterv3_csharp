@@ -23,7 +23,7 @@ The ``Client/Client.cs`` function returns a new client, registered with intercep
 
 ### Interceptor
 
-The directory currently includes the interceptors for testing purposes; in deployment, the interceptors would be in a separate dotnet package that gets imported in the .csproj file. The interceptors are all part of the MiddlewareListInterceptors namespace, which is how they get imported in other files (such as ``Server/Internal/Server/Server.cs`` and ``api/v1/Client/Client.cs``).
+The directory currently includes the interceptors for testing purposes; in deployment, the interceptors would be in a separate dotnet package that gets imported in the .csproj file. The interceptors are all part of the AKSMiddleware namespace, which is how they get imported in other files (such as ``Server/Internal/Server/Server.cs`` and ``api/v1/Client/Client.cs``).
 
 ``DefaultServerInterceptors`` and ``DefaultClientInterceptors`` each return a list of interceptors that the client and server register themselves. Currently, the server receives the RequestId, CtxLogger, and ServerLoggerInterceptor interceptors. The RequestId interceptor looks for a requestid in the current ServerCallContext; if it doesn't find one, it adds a new one to the context, as well as to the LogContext. CtxLogger adds method and request fields to the LogContext. ServerLoggerInterceptor is taken from the documentation for .NET gRPC Interceptors, but is the jumping off point for creating the API Autologger (includes timing, logging after the end of the call).
 

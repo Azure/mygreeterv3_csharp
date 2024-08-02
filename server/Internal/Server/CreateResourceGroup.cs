@@ -2,7 +2,7 @@ using Grpc.Core;
 using System.Threading.Tasks;
 using Greet.Server;
 using Serilog;
-using MiddlewareListInterceptors;
+using AKSMiddleware;
 using Google.Protobuf.WellKnownTypes;
 using Azure.Identity;
 using Azure;

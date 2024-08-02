@@ -7,7 +7,7 @@ using Serilog;
 using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 
-using MiddlewareListInterceptors;
+using AKSMiddleware;
 
 namespace Greet.Client
 {

@@ -14,7 +14,7 @@ namespace Greet.Server {
     using Greet.Server;
     using Greet.Services;
     using LogAttrs;
-    using MiddlewareListInterceptors;
+    using AKSMiddleware;
 
     // Some properties are automatically included in the log message, so we must remove them from the properties list
     // https://stackoverflow.com/questions/47176191/how-to-remove-properties-from-log-entries-in-asp-net-core
