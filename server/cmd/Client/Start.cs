@@ -124,7 +124,8 @@ namespace Greet.Client {
 
             if (options.JsonLog)
             {
-                loggerConfiguration = loggerConfiguration.WriteTo.Console(new ExpressionTemplate("{ {time: @t, level: @l, msg: @m, EX: @x, ..@p} }\n"));
+                loggerConfiguration = loggerConfiguration.WriteTo.Console(new ExpressionTemplate(
+                    "{ {time: @t, level: if @l = 'Information' then 'INFO' else if @l = 'Error' then 'ERROR' else if @l = 'Warning' then 'WARN' else if @l = 'Debug' then 'DEBUG' else if @l = 'Verbose' then 'VERBOSE' else if @l = 'Fatal' then 'FATAL' else @l, msg: @m, EX: @x, location: @Location, ..@p} }\n"));
             }
             else
             {
@@ -160,7 +161,6 @@ namespace Greet.Client {
             string zipString = stateAndZip[1];
             int zipCode = Convert.ToInt32(zipString);
 
-            // Create Address instance
             var addr = new Address
             {
                 Street = street,
@@ -169,7 +169,6 @@ namespace Greet.Client {
                 Zipcode = zipCode
             };
 
-            // Prepare HelloRequest
             var helloRequest = new HelloRequest
             {
                 Name = name,

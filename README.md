@@ -6,14 +6,12 @@ This repository holds code for a sample MyGreeter service.
 
 Install .NET 8.0 SDK here: https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install?pivots=os-linux-ubuntu-2004&tabs=dotnet8
 
-To run this service, it is necessary to generate a gRPC service from the ``api.proto`` file. To do this, navigate into the ``api/v1/`` directory and run the command ``dotnet build``. This will use the protoc compiler under the hood to compile the proto file, generating C# gRPC files in a directory called ``api/v1/obj/``. 
-
 To run the client and server, nagivate into the ``/Server/`` directory in two separate terminals, then run the following commands:
 
 
-```dotnet run --configuration Server start```
+```dotnet run -c Server start```
 
-```dotnet run --configuration Client hello```
+```dotnet run -c Client hello```
 
 # Directory Guide
 

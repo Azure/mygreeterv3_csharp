@@ -16,14 +16,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ADuke.ServiceHub.AKSMiddleware" Version="2.1.4" />
     <PackageReference Include="Google.Protobuf" Version="3.27.2" />
     <PackageReference Include="Grpc.Net.Client" Version="2.63.0" />
     <PackageReference Include="Grpc.Tools" Version="2.64.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="microsoft.aspnetcore.grpc.jsontranscoding" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Grpc.JsonTranscoding" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.8.6" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -33,6 +32,7 @@
     <PackageReference Include="protobuf-net" Version="3.2.30" />
     <PackageReference Include="ProtoValidate" Version="0.1.3" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
+    <PackageReference Include="ServiceHub.MyGreeterV3.AKSMiddleware" Version="1.0.0" />
     <PackageReference Include="ServiceHub.MyGreeterV3.LogProto" Version="3.9.5" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Proto/**/*.proto" GrpcServices="Both" ProtoRoot="Proto" />
+    <Protobuf Include="Proto/api.proto" GrpcServices="Both" ProtoRoot="Proto" />
   </ItemGroup>
 
 </Project>

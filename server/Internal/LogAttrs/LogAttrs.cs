@@ -13,21 +13,6 @@ public static class LogAttributes
     {
         attrs.Add(new KeyValuePair<string, object>(key, value));
     }
-
-    public static string FormatAttrs()
-    {
-        var formattedAttrs = new List<string>();
-        foreach (var kvp in attrs)
-        {
-            formattedAttrs.Add($"{kvp.Key}=\"{kvp.Value}\"");
-        }
-        return string.Join(", ", formattedAttrs);
-    }
-    
-    public static string GetFormattedAttrs()
-    {
-        return FormatAttrs();
-    }
     
     public static List<KeyValuePair<string, object>> GetAttrs()
     {
@@ -35,6 +20,8 @@ public static class LogAttributes
     }
 }
 
+// This Serilog enricher will add custom attributes to the log event; it gets called every time a log event occurs, so new attributes will always be included
+// https://github.com/serilog/serilog/wiki/Configuration-Basics#enrichers
 public class CustomAttributeEnricher : ILogEventEnricher
 {
     public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)

@@ -1,27 +1,23 @@
 namespace Greet.Server {
 
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Runtime.CompilerServices;
+    using Grpc.Core;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.OpenApi.Models;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
+    using Microsoft.OpenApi.Models;
     using Serilog;
-    using Serilog.Context;
     using Serilog.Core;
     using Serilog.Events;
     using Serilog.Templates;
-    using Grpc.Core;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    
-    using Greet;
-    using Greet.Services;
-    using Greet.Server;
-    using MiddlewareListInterceptors;
-    using LogAttrs;
+    using System.IO;
 
+    using Greet.Server;
+    using Greet.Services;
+    using LogAttrs;
+    using MiddlewareListInterceptors;
+
+    // Some properties are automatically included in the log message, so we must remove them from the properties list
+    // https://stackoverflow.com/questions/47176191/how-to-remove-properties-from-log-entries-in-asp-net-core
     class RemovePropertiesEnricher : ILogEventEnricher
     {
         public void Enrich(LogEvent le, ILogEventPropertyFactory lepf)
@@ -42,15 +38,17 @@ namespace Greet.Server {
                 Args = new[] { "--urls", $"http://0.0.0.0:{options.Port}" }
             });
 
+            // Enforce HTTP/2
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/endpoints?view=aspnetcore-8.0#configure-http-protocols-in-code
             builder.WebHost.ConfigureKestrel(serverOptions =>
             {
                 serverOptions.ListenAnyIP(options.Port, listenOptions =>
                 {
-                    listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2; // Enforce HTTP/2
+                    listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2; 
                 });
             });
 
-            // Serilog configuration
+            // Serilog configuration; enriches with LogContext (link below), removes properties, and adds custom attributes
             var loggerConfiguration = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .Enrich.With(new RemovePropertiesEnricher())
@@ -63,6 +61,7 @@ namespace Greet.Server {
                 loggerConfiguration = loggerConfiguration.WriteTo.Console(new ExpressionTemplate(
                     "{ {time: @t, level: if @l = 'Information' then 'INFO' else if @l = 'Error' then 'ERROR' else if @l = 'Warning' then 'WARN' else if @l = 'Debug' then 'DEBUG' else if @l = 'Verbose' then 'VERBOSE' else if @l = 'Fatal' then 'FATAL' else @l, msg: @m, EX: @x, location: @Location, ..@p} }\n"));
             }
+            // https://github.com/serilog/serilog/wiki/Formatting-Output#formatting-plain-text
             else
             {
                 loggerConfiguration = loggerConfiguration.WriteTo.Console(outputTemplate: "{Timestamp} [{Level}] {Message} {CustomAttributes:lj}{Properties}{NewLine}{Exception}");
@@ -72,40 +71,35 @@ namespace Greet.Server {
             builder.Logging.ClearProviders();
             builder.Logging.AddSerilog(Log.Logger);
             
+            // Add Serilog logger to the DI container
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-8.0
             builder.Services.AddScoped<ILogger>(provider =>
             {
                 var logger = Log.Logger;
                 return logger;
             });
+
+            // Add the ServerOptions to the DI for access in the GreeterService constructor (Api.cs)
             builder.Services.AddSingleton(options);
 
-            // Add services to the container.
+            // Add interceptors to the gRPC server, injected into the DI container
+            // https://learn.microsoft.com/en-us/aspnet/core/grpc/interceptors?view=aspnetcore-8.0#configure-server-interceptors
             builder.Services.AddGrpc(options =>
             {
-                // Add your custom server interceptors
                 var serverInterceptors = InterceptorFactory.DefaultServerInterceptors(Log.Logger);
                 foreach (var interceptor in serverInterceptors)
                 {
                     options.Interceptors.Add(interceptor.GetType());
                 }
-            }).AddJsonTranscoding();
+            }).AddJsonTranscoding(); // https://learn.microsoft.com/en-us/aspnet/core/grpc/json-transcoding-openapi?view=aspnetcore-8.0
 
+
+            // https://learn.microsoft.com/en-us/aspnet/core/grpc/health-checks?view=aspnetcore-8.0
             builder.Services.AddGrpcHealthChecks()
-                            .AddCheck("GreeterServer", () => HealthCheckResult.Healthy());
-            builder.Services.AddGrpcSwagger();
-            builder.Services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1",
-                    new OpenApiInfo { Title = "gRPC transcoding", Version = "v1" });
-
-                var filePath = Path.Combine(AppContext.BaseDirectory, "GrpcGreeter.xml");
-                c.IncludeXmlComments(filePath);
-                c.IncludeGrpcXmlComments(filePath, includeControllerXmlComments: true);
-            });
+                            .AddCheck("GreeterServer", () => HealthCheckResult.Healthy());            
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             app.MapGrpcService<GreeterService>();
             app.MapGrpcHealthChecksService();
             app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");

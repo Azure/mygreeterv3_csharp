@@ -22,7 +22,8 @@ public partial class GreeterService
         if (_resourceGroups == null)
         {
             Log.Logger.WithCtx(context).Warning("ResourceGroupClient is nil in CreateResourceGroup(), azuresdk feature is likely disabled");
-            throw new RpcException(new Status(StatusCode.Unimplemented, "ResourceGroupClient is nil in CreateResourceGroup(), azuresdk feature is likely disabled"));
+            return new Empty();
+            // throw new RpcException(new Status(StatusCode.Unimplemented, "ResourceGroupClient is nil in CreateResourceGroup(), azuresdk feature is likely disabled"));
         }
 
         try
