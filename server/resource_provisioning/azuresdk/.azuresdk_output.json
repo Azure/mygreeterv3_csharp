@@ -3,7 +3,7 @@
   "location": "eastus",
   "name": "azuresdk-clagx80475-deploy",
   "properties": {
-    "correlationId": "e159e729-33b9-457a-a4a8-a69387fdb5ec",
+    "correlationId": "2845f17b-f536-42ea-8d95-62bbb717e004",
     "debugSetting": null,
     "dependencies": [
       {
@@ -60,13 +60,13 @@
         "resourceType": "Microsoft.Resources/deployments"
       }
     ],
-    "duration": "PT1M6.8371526S",
+    "duration": "PT1M10.5258071S",
     "error": null,
     "mode": "Incremental",
     "onErrorDeployment": null,
     "outputResources": [
       {
-        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/providers/Microsoft.Authorization/roleAssignments/4e5c148e-05ed-528d-a941-4b75b0514a93"
+        "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/providers/Microsoft.Authorization/roleAssignments/28fbe9d4-a930-5b83-98aa-6626ecf3eb46"
       },
       {
         "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/servicehub-clagx80475-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/servicehub-mygreeterv3-managedIdentity",
@@ -80,7 +80,7 @@
     "outputs": {
       "clientId": {
         "type": "String",
-        "value": "9fd39a94-2719-44b0-8bae-35c6b925147f"
+        "value": "ad4a12d6-89e8-4bbd-94ca-78ba759de8fd"
       }
     },
     "parameters": {
@@ -131,7 +131,7 @@
     "provisioningState": "Succeeded",
     "templateHash": "15478105471039385591",
     "templateLink": null,
-    "timestamp": "2024-07-29T16:44:26.840463+00:00",
+    "timestamp": "2024-08-05T17:01:13.799903+00:00",
     "validatedResources": null
   },
   "tags": null,

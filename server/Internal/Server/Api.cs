@@ -48,19 +48,10 @@ public partial class GreeterService : MyGreeter.MyGreeterBase
                 // Get the ResourceGroupCollection from the subscription
                 _resourceGroups = subscription.GetResourceGroups();
 
-                if (_resourceGroups != null)
-                {
-                    _logger.Warning("Resource groups are available.");
-                }
-                else
-                {
-                    _logger.Warning("Resource groups are not available.");
-                }
-
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to create Azure clients.");
+                _logger.Error(ex);
                 Environment.Exit(1);
             }
         }

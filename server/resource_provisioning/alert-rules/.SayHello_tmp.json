@@ -3,10 +3,10 @@
   "location": "eastus",
   "name": "SayHello-clagx80475-deploy",
   "properties": {
-    "correlationId": "ac0660e4-21cb-486b-827e-146d294caac4",
+    "correlationId": "02112162-8a9b-4cf6-82b0-d928c60b26c8",
     "debugSetting": null,
     "dependencies": [],
-    "duration": "PT33.2806435S",
+    "duration": "PT33.5705561S",
     "error": null,
     "mode": "Incremental",
     "onErrorDeployment": null,
@@ -72,7 +72,7 @@
     "provisioningState": "Succeeded",
     "templateHash": "9304267388975234957",
     "templateLink": null,
-    "timestamp": "2024-07-29T16:43:55.731451+00:00",
+    "timestamp": "2024-08-05T17:00:37.833751+00:00",
     "validatedResources": null
   },
   "tags": null,
