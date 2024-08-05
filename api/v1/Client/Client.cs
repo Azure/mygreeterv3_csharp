@@ -9,19 +9,18 @@ using Serilog.Formatting.Compact;
 
 using AKSMiddleware;
 
-namespace Greet.Client
-{
-    public static class Client
-    {
-        public static MyGreeter.MyGreeterClient NewClient(string remoteAddr, ILogger logger)
-        {
-            var channel = GrpcChannel.ForAddress($"http://{remoteAddr}", new GrpcChannelOptions
-            {
-                LoggerFactory = new Serilog.Extensions.Logging.SerilogLoggerFactory(logger)
-            });
-            var invoker = channel.Intercept(InterceptorFactory.DefaultClientInterceptors(logger));
+namespace Client;
 
-            return new MyGreeter.MyGreeterClient(invoker);
-        }
+public static class ClientFactory
+{
+    public static MyGreeter.MyGreeterClient NewClient(string remoteAddr, ILogger logger)
+    {
+        var channel = GrpcChannel.ForAddress($"http://{remoteAddr}", new GrpcChannelOptions
+        {
+            LoggerFactory = new Serilog.Extensions.Logging.SerilogLoggerFactory(logger)
+        });
+        var invoker = channel.Intercept(InterceptorFactory.DefaultClientInterceptors(logger));
+
+        return new MyGreeter.MyGreeterClient(invoker);
     }
 }

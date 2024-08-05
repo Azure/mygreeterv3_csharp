@@ -1,6 +1,7 @@
 using Grpc.Core;
 using Serilog;
 using System;
+using Greet;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Core;
@@ -9,7 +10,7 @@ using Azure.ResourceManager.Resources;
 using Azure.ResourceManager.Compute;
 // using Azure.ResourceManager.Storage;
 
-namespace Greet.Services;
+namespace Server;
 
 public partial class GreeterService : MyGreeter.MyGreeterBase
 {
@@ -51,7 +52,7 @@ public partial class GreeterService : MyGreeter.MyGreeterBase
             }
             catch (Exception ex)
             {
-                _logger.Error(ex);
+                _logger.Error(ex.Message);
                 Environment.Exit(1);
             }
         }

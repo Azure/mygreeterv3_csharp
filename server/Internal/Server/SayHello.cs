@@ -1,12 +1,12 @@
 using Grpc.Core;
 using System.Threading.Tasks;
-using Greet.Server;
+using Greet;
 using Serilog;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using AKSMiddleware;
 
-namespace Greet.Services;
+namespace Server;
 
 public partial class GreeterService
 {

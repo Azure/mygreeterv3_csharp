@@ -1,6 +1,6 @@
 using Grpc.Core;
 using System.Threading.Tasks;
-using Greet.Server;
+using Greet;
 using Serilog;
 using AKSMiddleware;
 using Google.Protobuf.WellKnownTypes;
@@ -11,14 +11,12 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.Resources;
 using Azure.ResourceManager.Compute;
 
-namespace Greet.Services;
+namespace Server;
 
 public partial class GreeterService
 {
     public override async Task<Empty> CreateResourceGroup(CreateResourceGroupRequest request, ServerCallContext context)
     {
-        Log.Logger.WithCtx(context).Information("Received a create resource group request! RgName: {RgName}, RgRegion: {RgRegion}", request.Name, request.Region);
-
         if (_resourceGroups == null)
         {
             Log.Logger.WithCtx(context).Warning("ResourceGroupClient is nil in CreateResourceGroup(), azuresdk feature is likely disabled");
