@@ -17,7 +17,7 @@ service:
   type: ClusterIP
   port: 50051
   httpPort: 50061
-  serverName: servicehub-mygreeterv3-server
+  serverName: servicehub-mygreeterv3csharp-server
   livenessInitialDelaySeconds: 10
   livenessPeriodSeconds: 10
   readinessInitialDelaySeconds: 5
@@ -41,7 +41,7 @@ ingress:
   #      - chart-example.local
 
 image:
-  repository: servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3
+  repository: servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3csharp
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: latest

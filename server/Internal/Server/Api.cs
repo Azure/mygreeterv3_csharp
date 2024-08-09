@@ -12,12 +12,12 @@ using Azure.ResourceManager.Compute;
 
 namespace Server;
 
-public partial class GreeterService : MyGreeter.MyGreeterBase
+public partial class GeneratedServer : MyGreeter.MyGreeterBase
 {
     private readonly ResourceGroupCollection? _resourceGroups;
     private readonly Serilog.ILogger _logger;
 
-    public GreeterService(ServerOptions options, Serilog.ILogger logger)
+    public GeneratedServer(ServerOptions options, Serilog.ILogger logger)
     {
         _logger = logger;
 

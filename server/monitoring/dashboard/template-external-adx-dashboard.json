@@ -3,7 +3,7 @@
     "id": "3303e636-d213-4452-a5f9-b752f952f5b4",
     "eTag": "359b71a0-7d30-41b1-8ed9-ffc3db3b66a3",
     "schema_version": "51",
-    "title": "External mygreeterv3 Dashboard",
+    "title": "External mygreeterv3csharp Dashboard",
     "autoRefresh": {
         "enabled": true,
         "defaultInterval": "30m",
@@ -28,7 +28,7 @@
                 "kind": "parameter",
                 "parameterId": "0d2f33d6-0a43-4244-a5f0-70d3aad4ca92"
             },
-            "text": "ContainerLogV2\n| where LogMessage[\"source\"] == \"ApiRequestLog\"\n| extend PreciseTimeStamp = todatetime(LogMessage[\"time\"])\n| where PreciseTimeStamp between (_startTime.._endTime)\n| where LogMessage[\"msg\"] == \"finished call\"\n| where PodNamespace in (\"servicehub-mygreeterv3-server\", \"servicehub-mygreeterv3-demoserver\")",
+            "text": "ContainerLogV2\n| where LogMessage[\"source\"] == \"ApiRequestLog\"\n| extend PreciseTimeStamp = todatetime(LogMessage[\"time\"])\n| where PreciseTimeStamp between (_startTime.._endTime)\n| where LogMessage[\"msg\"] == \"finished call\"\n| where PodNamespace in (\"servicehub-mygreeterv3csharp-server\")",
             "usedVariables": [
                 "_endTime",
                 "_startTime"
@@ -122,7 +122,7 @@
     "tiles": [
         {
     "id": "21e6efd2-6c31-456c-b1fe-d1bd290ba2df",
-    "title": "mygreeterv3 Dashboard",
+    "title": "mygreeterv3csharp Dashboard",
     "visualType": "markdownCard",
     "pageId": "0c7d1052-237a-4600-8cda-b45b91e5c3e5",
     "layout": {
@@ -386,9 +386,9 @@
     "dataSources": [
         {
             "id": "1ede2aa1-b8a8-4aae-9dac-19ad6b648b77",
-            "name": "servicehub-clagx80475-data",
-            "clusterUri": "https://ade.loganalytics.io/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourcegroups/servicehub-clagx80475-rg/providers/microsoft.operationalinsights/workspaces/servicehub-clagx80475-workspace",
-            "database": "servicehub-clagx80475-workspace",
+            "name": "servicehub-{{.resourcesName}}-data",
+            "clusterUri": "https://ade.loganalytics.io/subscriptions/{{.subscriptionId}}/resourcegroups/servicehub-{{.resourcesName}}-rg/providers/microsoft.operationalinsights/workspaces/servicehub-{{.resourcesName}}-workspace",
+            "database": "servicehub-{{.resourcesName}}-workspace",
             "kind": "manual-kusto",
             "scopeId": "kusto"
         }
@@ -396,7 +396,7 @@
     "pages": [
         {
     "id": "0c7d1052-237a-4600-8cda-b45b91e5c3e5",
-    "name": "mygreeterv3"
+    "name": "mygreeterv3csharp"
 }
     ]
 }

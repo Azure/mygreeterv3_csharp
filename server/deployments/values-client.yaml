@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 nameOverride: ""
-fullnameOverride: servicehub-mygreeterv3-client
+fullnameOverride: servicehub-mygreeterv3csharp-client
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -18,14 +18,15 @@ command:
 - dotnet
 
 args:
-  - client/GrpcGreeter.dll
+  - client/Grpc.dll
   - hello
   - --interval-milli-sec=60000
   - --json-log=true
-  - --remote-addr=servicehub-mygreeterv3-server.servicehub-mygreeterv3-server:50051
-  # - --http-addr=http://servicehub-mygreeterv3-server.servicehub-mygreeterv3-server.svc.cluster.local:50061
+  - --remote-addr=servicehub-mygreeterv3csharp-server.servicehub-mygreeterv3csharp-server:50051
+  - --http-addr=http://servicehub-mygreeterv3csharp-server.servicehub-mygreeterv3csharp-server.svc.cluster.local:50061
 
 # Info used for authorization policy
 allowedPrincipals: []
 
 allowedRequests: []
+

@@ -14,17 +14,13 @@ connect-cluster:
 
 build-image:
 	set -e; \
-	if [ -z "$(READPAT)" ]; then \
-		echo "READPAT does not exist. Please rerun the command with this variable"; \
-		exit 1; \
-	fi; \
-	docker build --build-arg PAT=$(READPAT) \
-	-t servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3 -f ../Dockerfile ./../; \
-	docker save -o mygreeterv3-image.tar servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3; \
+	docker build  \
+	-t servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3csharp -f ../Dockerfile ./../; \
+	docker save -o mygreeterv3csharp-image.tar servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3csharp; \
 
 push-image:
 	set -e; \
 	az acr login --name servicehub{{.resourcesName}}{{.location}}acr.azurecr.io; \
-	docker load -i mygreeterv3-image.tar; \
-	docker push servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3; \
-	rm mygreeterv3-image.tar;
+	docker load -i mygreeterv3csharp-image.tar; \
+	docker push servicehub{{.resourcesName}}{{.location}}acr.azurecr.io/mygreeterv3csharp; \
+	rm mygreeterv3csharp-image.tar;

@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 nameOverride: ""
-fullnameOverride: servicehub-mygreeterv3-server
+fullnameOverride: servicehub-mygreeterv3csharp-server
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -19,16 +19,16 @@ command:
   - dotnet
 
 args:
-  - server/GrpcGreeter.dll
+  - server/Grpc.dll
   - start
   - --json-log
-  - --remote-addr=servicehub-mygreeterv3-demoserver.servicehub-mygreeterv3-demoserver:50071
+  # - --remote-addr=servicehub-mygreeterv3csharp-demoserver.servicehub-mygreeterv3csharp-demoserver:50071
   - --enable-azureSDK-calls=true
   - --subscription-id={{.subscriptionId}}
 
 # Info used for authorization policy
 allowedPrincipals:
-  - cluster.local/ns/servicehub-mygreeterv3-client/sa/servicehub-mygreeterv3-client
+  - cluster.local/ns/servicehub-mygreeterv3csharp-client/sa/servicehub-mygreeterv3csharp-client
 
 allowedRequests:
   - /MyGreeter/SayHello

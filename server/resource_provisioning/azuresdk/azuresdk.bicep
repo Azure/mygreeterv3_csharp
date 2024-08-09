@@ -29,17 +29,17 @@ module aks 'br:servicehubregistry.azurecr.io/bicep/modules/aks-managed-cluster:v
   }
 }
 
-var serviceAccountNamespace = 'servicehub-mygreeterv3-server'
-var serviceAccountName = 'servicehub-mygreeterv3-server'
+var serviceAccountNamespace = 'servicehub-mygreeterv3csharp-server'
+var serviceAccountName = 'servicehub-mygreeterv3csharp-server'
 module managedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.2.1' = {
-  name: 'servicehub-mygreeterv3-managed-identityDeploy'
+  name: 'servicehub-mygreeterv3csharp-managed-identityDeploy'
   scope: resourceGroup(subscriptionId, resourceGroupName)
   params: {
-    name: 'servicehub-mygreeterv3-managedIdentity'
+    name: 'servicehub-mygreeterv3csharp-managedIdentity'
     location: rg.location
     federatedIdentityCredentials: [
       {
-        name: 'servicehub-mygreeterv3-fedIdentity'
+        name: 'servicehub-mygreeterv3csharp-fedIdentity'
         issuer: aks.outputs.oidcIssuerUrl
         subject: 'system:serviceaccount:${serviceAccountNamespace}:${serviceAccountName}'
         audiences: [ 'api://azureadtokenexchange' ]
@@ -50,10 +50,10 @@ module managedIdentity 'br/public:avm/res/managed-identity/user-assigned-identit
 
 // TODO: migrate to use bicep module registry since it's available
 module azureSdkRoleAssignment 'br:servicehubregistry.azurecr.io/bicep/modules/subscription-role-assignment:v3' = {
-  name: 'servicehub-mygreeterv3azuresdkra${location}Deploy'
+  name: 'servicehub-mygreeterv3csharpazuresdkra${location}Deploy'
   scope: subscription(subscriptionId)
   params: {
-    name: guid('mygreeterv3azuresdk', 'Contributor', managedIdentity.outputs.principalId, resourcesName, location)
+    name: guid('mygreeterv3csharpazuresdk', 'Contributor', managedIdentity.outputs.principalId, resourcesName, location)
     location: rg.location
     roleDefinitionId: 'b24988ac-6180-42a0-ab88-20f7382dd24c' // Contributor
     principalId: managedIdentity.outputs.principalId

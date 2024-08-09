@@ -78,7 +78,7 @@ public static class Server
             return logger;
         });
 
-        // Add the ServerOptions to the DI for access in the GreeterService constructor (Api.cs)
+        // Add the ServerOptions to the DI for access in the GeneratedServer constructor (Api.cs)
         builder.Services.AddSingleton(options);
 
         // Add interceptors to the gRPC server, injected into the DI container
@@ -95,11 +95,11 @@ public static class Server
 
         // https://learn.microsoft.com/en-us/aspnet/core/grpc/health-checks?view=aspnetcore-8.0
         builder.Services.AddGrpcHealthChecks()
-                        .AddCheck("GreeterServer", () => HealthCheckResult.Healthy());            
+                        .AddCheck("GeneratedServer", () => HealthCheckResult.Healthy());            
 
         var app = builder.Build();
 
-        app.MapGrpcService<GreeterService>();
+        app.MapGrpcService<GeneratedServer>();
         app.MapGrpcHealthChecksService();
         app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 

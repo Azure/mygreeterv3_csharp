@@ -8,7 +8,7 @@ using AKSMiddleware;
 
 namespace Server;
 
-public partial class GreeterService
+public partial class GeneratedServer
 {
     public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
     {

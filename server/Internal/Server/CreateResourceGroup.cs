@@ -13,7 +13,7 @@ using Azure.ResourceManager.Compute;
 
 namespace Server;
 
-public partial class GreeterService
+public partial class GeneratedServer
 {
     public override async Task<Empty> CreateResourceGroup(CreateResourceGroupRequest request, ServerCallContext context)
     {

@@ -21,18 +21,18 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10
 }
 
 module qpsAlertRule 'br/public:avm/res/insights/scheduled-query-rule:0.1.2' = {
-  name: 'mygreeterv3-ListStorageAccounts-query-per-second'
+  name: 'mygreeterv3csharp-ListStorageAccounts-query-per-second'
   scope: resourceGroup(subscriptionId, resourceGroupName)
   params: {
-    name: 'mygreeterv3-ListStorageAccounts-query-per-second'
+    name: 'mygreeterv3csharp-ListStorageAccounts-query-per-second'
     location: location
-    alertDescription: 'This is the alert for mygreeterv3 for the calculated metric query per second.'
+    alertDescription: 'This is the alert for mygreeterv3csharp for the calculated metric query per second.'
     criterias: {
       allOf: [
         {
           metricMeasureColumn:'QPS'
           operator: 'GreaterThan'
-          query:'let method = "ListStorageAccounts";\nlet binSizeMinute = timespan(5m);\nlet binSizeSecond = binSizeMinute / 1s;\nContainerLogV2\n| where ContainerName == "servicehub-mygreeterv3-server"\n| where LogMessage["component"] == "server"\n| where LogMessage["method"] == method or isempty(method)\n| where LogMessage["msg"] == "finished call"\n| summarize QPS = count()/binSizeSecond by tostring(LogMessage["code"]), bin(todatetime(LogMessage["time"]), binSizeMinute)\n\n'
+          query:'let method = "ListStorageAccounts";\nlet binSizeMinute = timespan(5m);\nlet binSizeSecond = binSizeMinute / 1s;\nContainerLogV2\n| where ContainerName == "servicehub-mygreeterv3csharp-server"\n| where LogMessage["component"] == "server"\n| where LogMessage["method"] == method or isempty(method)\n| where LogMessage["msg"] == "finished call"\n| summarize QPS = count()/binSizeSecond by tostring(LogMessage["code"]), bin(todatetime(LogMessage["time"]), binSizeMinute)\n\n'
           threshold: '0.05'
           timeAggregation: 'Maximum'
         }
@@ -50,18 +50,18 @@ module qpsAlertRule 'br/public:avm/res/insights/scheduled-query-rule:0.1.2' = {
 }
 
 module errorRatioAlertRule 'br/public:avm/res/insights/scheduled-query-rule:0.1.2' = {
-  name: 'mygreeterv3-ListStorageAccounts-error-ratio'
+  name: 'mygreeterv3csharp-ListStorageAccounts-error-ratio'
   scope: resourceGroup(subscriptionId, resourceGroupName)
   params: {
-    name: 'mygreeterv3-ListStorageAccounts-error-ratio'
+    name: 'mygreeterv3csharp-ListStorageAccounts-error-ratio'
     location: location
-    alertDescription: 'This is the alert for mygreeterv3 for the calculated metric error ratio.'
+    alertDescription: 'This is the alert for mygreeterv3csharp for the calculated metric error ratio.'
     criterias: {
       allOf: [
         {
           metricMeasureColumn:'ratio'
           operator: 'GreaterThan'
-          query: 'let method = "ListStorageAccounts";\nContainerLogV2\n| where ContainerName == "servicehub-mygreeterv3-server"\n| where LogMessage["component"] == "server"\n| where LogMessage["method"] == method\n| where LogMessage["msg"] == "finished call"\n| extend timePoint = todatetime(LogMessage["time"])\n| extend code = tostring(LogMessage["code"])\n| summarize \n total = count(),\nerror = countif(code != "OK") \nby bin(timePoint,5m)\n| extend ratio = round(error * 100.0/total, 3)\n| project timePoint, ratio\n\n'
+          query: 'let method = "ListStorageAccounts";\nContainerLogV2\n| where ContainerName == "servicehub-mygreeterv3csharp-server"\n| where LogMessage["component"] == "server"\n| where LogMessage["method"] == method\n| where LogMessage["msg"] == "finished call"\n| extend timePoint = todatetime(LogMessage["time"])\n| extend code = tostring(LogMessage["code"])\n| summarize \n total = count(),\nerror = countif(code != "OK") \nby bin(timePoint,5m)\n| extend ratio = round(error * 100.0/total, 3)\n| project timePoint, ratio\n\n'
           threshold: '0.05'
           timeAggregation: 'Maximum'
         }
@@ -79,18 +79,18 @@ module errorRatioAlertRule 'br/public:avm/res/insights/scheduled-query-rule:0.1.
 }
 
 module latencyAlertRule 'br/public:avm/res/insights/scheduled-query-rule:0.1.2' = {
-  name: 'mygreeterv3-ListStorageAccounts-latency-by-error-code'
+  name: 'mygreeterv3csharp-ListStorageAccounts-latency-by-error-code'
   scope: resourceGroup(subscriptionId, resourceGroupName)
   params: {
-    name: 'mygreeterv3-ListStorageAccounts-latency-by-error-code'
+    name: 'mygreeterv3csharp-ListStorageAccounts-latency-by-error-code'
     location: location
-    alertDescription: 'This is the alert for mygreeterv3 for the calculated metric error ratio.'
+    alertDescription: 'This is the alert for mygreeterv3csharp for the calculated metric error ratio.'
     criterias: {
       allOf: [
         {
           metricMeasureColumn:'latency'
           operator: 'GreaterThan'
-          query: 'let method = "ListStorageAccounts";\nlet binSizeMinute = timespan(5m);\nlet binSizeSecond = binSizeMinute / 1s;\nContainerLogV2\n| where ContainerName == "servicehub-mygreeterv3-server"\n| where LogMessage["component"] == "server"\n| where LogMessage["method"] == method\n| where LogMessage["msg"] == "finished call"\n| summarize latency = avg(todouble(LogMessage["time_ms"]))\n    by\n    tostring(LogMessage["code"]),\n    bin(todatetime(LogMessage["time"]), binSizeMinute)\n\n'
+          query: 'let method = "ListStorageAccounts";\nlet binSizeMinute = timespan(5m);\nlet binSizeSecond = binSizeMinute / 1s;\nContainerLogV2\n| where ContainerName == "servicehub-mygreeterv3csharp-server"\n| where LogMessage["component"] == "server"\n| where LogMessage["method"] == method\n| where LogMessage["msg"] == "finished call"\n| summarize latency = avg(todouble(LogMessage["time_ms"]))\n    by\n    tostring(LogMessage["code"]),\n    bin(todatetime(LogMessage["time"]), binSizeMinute)\n\n'
           threshold: '1600'
           timeAggregation: 'Maximum'
         }
