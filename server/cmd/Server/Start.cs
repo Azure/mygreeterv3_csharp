@@ -3,7 +3,7 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
 
-using Greet;
+using ServiceHub.MyGreeter;
 
 namespace Server;
 

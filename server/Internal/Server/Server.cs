@@ -9,7 +9,7 @@ using Serilog.Events;
 using Serilog.Templates;
 using System.IO;
 
-using Greet;
+using ServiceHub.MyGreeter;
 using LogAttrs;
 using AKSMiddleware;
 

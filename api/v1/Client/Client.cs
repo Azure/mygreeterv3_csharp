@@ -1,5 +1,5 @@
 using Grpc.Net.Client;
-using Greet;
+using ServiceHub.MyGreeter;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 

@@ -5,7 +5,7 @@ import "google/protobuf/empty.proto";
 import "buf/validate/validate.proto";
 import "proto/log.proto";
 
-package greet;
+package ServiceHub.MyGreeter;
 
 // More info on how to use REST api
 // https://cloud.google.com/endpoints/docs/grpc/transcoding#map_a_get_method

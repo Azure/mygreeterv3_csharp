@@ -37,7 +37,7 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageReference Include="ServiceHub.ApiV1" Version="1.0.1" />
+    <PackageReference Include="ServiceHub.ApiV1" Version="1.0.2" />
     <PackageReference Include="ServiceHub.AKSMiddleware" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />

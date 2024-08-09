@@ -8,10 +8,10 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <IncludeHttpRuleProtos>true</IncludeHttpRuleProtos>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>bin\GrpcGreeter.xml</DocumentationFile>
+    <DocumentationFile>bin\GrpcAnnotations.xml</DocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <PackageId>ServiceHub.ApiV1</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Author>ADuke</Author>
     <Product>ApiV1</Product>
   </PropertyGroup>

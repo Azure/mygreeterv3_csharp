@@ -1,7 +1,7 @@
 using Grpc.Core;
 using Serilog;
 using System;
-using Greet;
+using ServiceHub.MyGreeter;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Core;

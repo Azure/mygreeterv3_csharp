@@ -10,7 +10,7 @@ using Serilog;
 using Serilog.Formatting.Compact;
 using Serilog.Templates;
 
-using Greet;
+using ServiceHub.MyGreeter;
 using Grpc.Net.Client;
 using Grpc.Core;
 

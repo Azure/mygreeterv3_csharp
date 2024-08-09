@@ -3,7 +3,7 @@
 using System.CommandLine;
 using System.Threading.Tasks;
 
-using Greet;
+using ServiceHub.MyGreeter;
 using Server;
 
 var rootCommand = new RootCommand("A brief description of your service");
