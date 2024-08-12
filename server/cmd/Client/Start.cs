@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
+using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -195,12 +196,81 @@ public static class StartCommand
                 Region = options.RgRegion
             });
         }
-
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling CreateResourceGroup: {ex.Status.Detail}");
+        }
         catch (Exception ex)
         {
             Log.Error("Error: {Message}", ex.Message);
         }
 
+        try
+        {
+            var response = await client.ListResourceGroupsAsync(new Empty());
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling ListResourceGroup: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Error calling ListResourceGroup: {ex.Message}");
+        }
 
+        try
+        {
+            var response = await client.ReadResourceGroupAsync(new ReadResourceGroupRequest
+            {
+                Name = options.RgName
+            });
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling ReadResourceGroup: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Error calling ReadResourceGroup: {ex.Message}");
+        }
+
+        try
+        {
+            var tags = new Dictionary<string, string>
+            {
+                { "key1", "value1" },
+                { "key2", "value2" }
+            };
+
+            var response = await client.UpdateResourceGroupAsync(new UpdateResourceGroupRequest
+            {
+                Name = options.RgName,
+                Tags = { tags }
+            });
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling UpdateResourceGroup: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Error calling UpdateResourceGroup: {ex.Message}");
+        }
+
+        try
+        {
+            var response = await client.DeleteResourceGroupAsync(new DeleteResourceGroupRequest
+            {
+                Name = options.RgName
+            });
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling DeleteResourceGroup: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Error calling DeleteResourceGroup: {ex.Message}");
+        }
     }
 }

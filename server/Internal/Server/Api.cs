@@ -10,6 +10,8 @@ using Azure.ResourceManager.Resources;
 using Azure.ResourceManager.Compute;
 // using Azure.ResourceManager.Storage;
 
+using AKSMiddleware;
+
 namespace Server;
 
 public partial class GeneratedServer : MyGreeter.MyGreeterBase
@@ -23,30 +25,22 @@ public partial class GeneratedServer : MyGreeter.MyGreeterBase
 
         if (options.EnableAzureSDKCalls)
         {
-            // TODO: need to create GetDefaultArmClientOptions function (middleware)
-            var clientOptions = new ArmClientOptions();
+            var clientOptions = ArmPolicy.GetDefaultArmClientOptions(_logger);
 
             TokenCredential credential;
             if (!string.IsNullOrEmpty(options.IdentityResourceId))
             {
-                // Use Managed Identity for authentication
                 ResourceIdentifier ResourceId = new ResourceIdentifier(options.IdentityResourceId);
                 credential = new ManagedIdentityCredential(ResourceId);
             }
             else
             {
-                // Fallback to DefaultAzureCredential
                 credential = new DefaultAzureCredential();
             }
-
             try
             {
                 var armClient = new ArmClient(credential, options.SubscriptionId, clientOptions);
-
-                // Get the subscription resource
                 SubscriptionResource subscription = armClient.GetSubscriptionResource(new ResourceIdentifier($"/subscriptions/{options.SubscriptionId}"));
-
-                // Get the ResourceGroupCollection from the subscription
                 _resourceGroups = subscription.GetResourceGroups();
 
             }

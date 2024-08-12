@@ -20,8 +20,7 @@ public partial class GeneratedServer
         if (_resourceGroups == null)
         {
             Log.Logger.WithCtx(context).Warning("ResourceGroupClient is nil in CreateResourceGroup(), azuresdk feature is likely disabled");
-            return new Empty();
-            // throw new RpcException(new Status(StatusCode.Unimplemented, "ResourceGroupClient is nil in CreateResourceGroup(), azuresdk feature is likely disabled"));
+            throw new RpcException(new Status(StatusCode.Unavailable, "ResourceGroupClient is nil, azuresdk feature is likely disabled"));
         }
 
         try
@@ -35,12 +34,12 @@ public partial class GeneratedServer
         catch (RequestFailedException ex)
         {
             Log.Logger.WithCtx(context).Error(ex, "CreateOrUpdateAsync() error: {ErrorMessage}", ex.Message);
-            throw new RpcException(new Status(StatusCode.Internal, "CreateOrUpdateAsync() failed"), ex.Message);
+            throw Server.HandleError(ex, "CreateOrUpdateAsync");
         }
         catch (Exception ex)
         {
             Log.Logger.WithCtx(context).Error(ex, "An unexpected error occurred: {ErrorMessage}", ex.Message);
-            throw new RpcException(new Status(StatusCode.Unknown, "An unexpected error occurred"), ex.Message);
+            throw Server.HandleError(ex, "CreateResourceGroup");
         }
 
         return new Empty();

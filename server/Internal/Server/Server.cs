@@ -8,6 +8,7 @@ using Serilog.Core;
 using Serilog.Events;
 using Serilog.Templates;
 using System.IO;
+using Azure;
 
 using ServiceHub.MyGreeter;
 using LogAttrs;
@@ -104,5 +105,19 @@ public static class Server
         app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
         await app.RunAsync();
+    }
+
+    public static RpcException HandleError(Exception ex, string operation)
+    {
+        if (ex is RequestFailedException requestFailedException)
+        {
+            var code = ArmPolicy.ConvertHTTPStatusToGRPCError(requestFailedException.Status);
+            var grpcError = new RpcException(new Status(code, $"call error: {ex.Message}"));
+            return grpcError;
+        }
+        else
+        {
+            return new RpcException(new Status(StatusCode.Unknown, $"An unexpected error occurred during {operation}: {ex.Message}"));
+        }
     }
 }
