@@ -22,7 +22,7 @@ args:
   - start
   - --json-log
   - --enable-azureSDK-calls=true
-  - --subscription-id={{.subscriptionId}}
+  - --subscription-id=8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8
 
 # Info used for authorization policy
 allowedPrincipals:

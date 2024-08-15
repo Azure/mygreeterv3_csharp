@@ -5,13 +5,13 @@ import "google/protobuf/empty.proto";
 import "buf/validate/validate.proto";
 import "proto/log.proto";
 
-package ServiceHub.MyGreeter;
+package ServiceHub.MyGreeterCsharp;
 
 // More info on how to use REST api
 // https://cloud.google.com/endpoints/docs/grpc/transcoding#map_a_get_method
 
 // The greeting service definition.
-service MyGreeter {
+service MyGreeterCsharp {
   // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply) {
     option (google.api.http) = {

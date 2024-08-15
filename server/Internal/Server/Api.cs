@@ -1,7 +1,7 @@
 using Grpc.Core;
 using Serilog;
 using System;
-using ServiceHub.MyGreeter;
+using ServiceHub.MyGreeterCsharp;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Core;
@@ -14,7 +14,7 @@ using AKSMiddleware;
 
 namespace Server;
 
-public partial class GeneratedServer : MyGreeter.MyGreeterBase
+public partial class GeneratedServer : MyGreeterCsharp.MyGreeterCsharpBase
 {
     private readonly ResourceGroupCollection? _resourceGroups;
     private readonly Serilog.ILogger _logger;

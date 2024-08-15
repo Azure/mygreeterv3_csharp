@@ -1,5 +1,5 @@
 using Grpc.Net.Client;
-using ServiceHub.MyGreeter;
+using ServiceHub.MyGreeterCsharp;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 
@@ -13,7 +13,7 @@ namespace Client;
 
 public static class ClientFactory
 {
-    public static MyGreeter.MyGreeterClient NewClient(string remoteAddr, ILogger logger)
+    public static MyGreeterCsharp.MyGreeterCsharpClient NewClient(string remoteAddr, ILogger logger)
     {
         var channel = GrpcChannel.ForAddress($"http://{remoteAddr}", new GrpcChannelOptions
         {
@@ -21,6 +21,6 @@ public static class ClientFactory
         });
         var invoker = channel.Intercept(InterceptorFactory.DefaultClientInterceptors(logger));
 
-        return new MyGreeter.MyGreeterClient(invoker);
+        return new MyGreeterCsharp.MyGreeterCsharpClient(invoker);
     }
 }

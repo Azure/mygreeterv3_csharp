@@ -78,4 +78,15 @@ Thumbs.db
 .projectile
 .dotnettools.json
 
-server/.kube/config
+server/generated/.kube/config
+
+# Ignore all temporary JSON files in server/resource_provisioning/alert-rules/
+server/resource_provisioning/alert-rules/*.json
+
+# Ignore specific files in server/resource_provisioning/azuresdk/
+server/resource_provisioning/azuresdk/.azuresdk_output.json
+server/resource_provisioning/azuresdk/.azuresdk_properties_outputs.json
+server/resource_provisioning/azuresdk/azuresdk_resources.md
+
+# Ignore server/resource_provisioning/values.json
+server/resource_provisioning/values.json

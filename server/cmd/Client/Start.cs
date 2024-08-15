@@ -11,7 +11,7 @@ using Serilog;
 using Serilog.Formatting.Compact;
 using Serilog.Templates;
 
-using ServiceHub.MyGreeter;
+using ServiceHub.MyGreeterCsharp;
 using Grpc.Net.Client;
 using Grpc.Core;
 
@@ -42,17 +42,17 @@ public static class StartCommand
     {
         var remoteAddrOption = new Option<string>(
             "--remote-addr",
-            description: "The remote server's addr for this client to connect to",
+            description: "The remote server's address for this client to connect to",
             getDefaultValue: () => "localhost:50051");
 
         var httpAddrOption = new Option<string>(
             "--http-addr",
-            description: "The remote HTTP gateway addr",
+            description: "The remote HTTP gateway address",
             getDefaultValue: () => "http://localhost:50061");
 
         var jsonLogOption = new Option<bool>(
             "--json-log",
-            description: "The format of the log is json or user friendly key-value pairs",
+            description: "Enables JSON format for logs (human readable key-value pairs)",
             getDefaultValue: () => false);
 
         var nameOption = new Option<string>(
@@ -83,7 +83,7 @@ public static class StartCommand
         var rgNameOption = new Option<string>(
             "--rg-name",
             description: "The name of the resource group",
-            getDefaultValue: () => "MyGreeter-resource-group");
+            getDefaultValue: () => "MyGreeterCsharp-resource-group");
 
         var rgRegionOption = new Option<string>(
             "--rg-region",
@@ -115,6 +115,7 @@ public static class StartCommand
         return startCommand;
     }
 
+    // hello is a client function that configures logging, creates a new client, and calls the SayHello function
     public static async Task hello(ClientOptions options)
     {
 
@@ -151,7 +152,8 @@ public static class StartCommand
         }
     }
 
-    private static async Task SayHello(MyGreeter.MyGreeterClient client, string name, int age, string email, string address, ClientOptions options)
+    // SayHello is a client function that calls the SayHello RPC as well as the Azure SDK resource group CRUDL operations
+    private static async Task SayHello(MyGreeterCsharp.MyGreeterCsharpClient client, string name, int age, string email, string address, ClientOptions options)
     {
 
         string[] addressParts = address.Split(',');
@@ -182,6 +184,10 @@ public static class StartCommand
         {
             var reply = await client.SayHelloAsync(helloRequest);
             Log.Information("Greeting: {Message}", reply.Message);
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling SayHello: {ex.Status.Detail}");
         }
         catch (Exception ex)
         {

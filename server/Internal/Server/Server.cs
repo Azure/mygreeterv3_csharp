@@ -10,7 +10,7 @@ using Serilog.Templates;
 using System.IO;
 using Azure;
 
-using ServiceHub.MyGreeter;
+using ServiceHub.MyGreeterCsharp;
 using LogAttrs;
 using AKSMiddleware;
 
@@ -31,6 +31,7 @@ class RemovePropertiesEnricher : ILogEventEnricher
 
 public static class Server
 {
+    // Serve is a server function that configures and starts the gRPC server, including logging, interceptors, and health checks
     public static async Task Serve(ServerOptions options)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions

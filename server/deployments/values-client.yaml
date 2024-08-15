@@ -15,10 +15,9 @@ serviceAccount:
   name: ""
 
 command:
-- dotnet
+- client/Grpc
 
 args:
-  - client/Grpc.dll
   - hello
   - --interval-milli-sec=60000
   - --json-log=true

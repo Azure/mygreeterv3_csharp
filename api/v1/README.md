@@ -1,3 +1,12 @@
 ## Overview
 
-This nuget package contains the Api/V1 package. It holds a proto file, `Proto/api.proto`, which defines a set of requests and responses for the MyGreeter service. It also contains the `NewClient()` function in `Client/Client.cs`, which returns a new client at the specified remote address. This package includes the generated Grpc service from `api.proto`, including functions like `SayHello()`, `CreateResourceGroup()`, etc. 
+This nuget package contains the Api/V1 package. 
+
+### `Proto/api.proto`
+
+Defines a set of requests and responses for the MyGreeterCsharp service. The Api/V1 package includes the generated Grpc service from `api.proto`, including functions like `SayHello()`, `CreateResourceGroup()`, etc. 
+
+### `Client/Client.cs`, 
+
+`NewClient()` function returns a new client at the specified remote address. 
+

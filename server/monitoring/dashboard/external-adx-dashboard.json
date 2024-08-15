@@ -386,9 +386,9 @@
     "dataSources": [
         {
             "id": "1ede2aa1-b8a8-4aae-9dac-19ad6b648b77",
-            "name": "servicehub-{{.resourcesName}}-data",
-            "clusterUri": "https://ade.loganalytics.io/subscriptions/{{.subscriptionId}}/resourcegroups/servicehub-{{.resourcesName}}-rg/providers/microsoft.operationalinsights/workspaces/servicehub-{{.resourcesName}}-workspace",
-            "database": "servicehub-{{.resourcesName}}-workspace",
+            "name": "servicehub-f7hp6tjs96-data",
+            "clusterUri": "https://ade.loganalytics.io/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourcegroups/servicehub-f7hp6tjs96-rg/providers/microsoft.operationalinsights/workspaces/servicehub-f7hp6tjs96-workspace",
+            "database": "servicehub-f7hp6tjs96-workspace",
             "kind": "manual-kusto",
             "scopeId": "kusto"
         }

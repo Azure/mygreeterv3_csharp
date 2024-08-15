@@ -1,7 +1,7 @@
 using Grpc.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ServiceHub.MyGreeter;
+using ServiceHub.MyGreeterCsharp;
 using Serilog;
 using AKSMiddleware;
 using Google.Protobuf.WellKnownTypes;

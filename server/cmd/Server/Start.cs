@@ -3,7 +3,7 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
 
-using ServiceHub.MyGreeter;
+using ServiceHub.MyGreeterCsharp;
 
 namespace Server;
 
@@ -13,15 +13,15 @@ public static class StartCommand
     {
         var portOption = new Option<int>(
             "--port",
-            description: "The addr to serve the api on",
+            description: "The address to serve the api on",
             getDefaultValue: () => 50051);
         var jsonLogOption = new Option<bool>(
             "--json-log",
-            description: "The format of the log is json or user friendly key-value pairs",
+            description: "Enables JSON format for logs (human readable key-value pairs)",
             getDefaultValue: () => false);
         var subscriptionIdOption = new Option<string>(
             "--subscription-id",
-            description: "The subscription ID to connect to",
+            description: "The subscription ID used to access and manage Azure resources",
             getDefaultValue: () => string.Empty);
         var enableAzureSDKCallsOption = new Option<bool>(
             "--enable-azureSDK-calls",
@@ -29,11 +29,11 @@ public static class StartCommand
             getDefaultValue: () => false);
         var httpPortOption = new Option<int>(
             "--http-port",
-            description: "the addr to serve the gRPC-Gateway on",
+            description: "the address to serve the gRPC-Gateway on",
             getDefaultValue: () => 50061);
         var remoteAddrOption = new Option<string>(
             "--remote-addr",
-            description: "The demo server's addr for this server to connect to",
+            description: "The demo server's address for this server to connect to",
             getDefaultValue: () => string.Empty);
         var intervalMilliSecOption = new Option<long>(
             "--interval-milli-sec",
