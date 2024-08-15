@@ -1,14 +1,57 @@
 # Project
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repository holds code for a sample MyGreeter service. 
 
-As the maintainer of this project, please make a few updates:
+# Usage
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+Install .NET 8.0 SDK here: https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install?pivots=os-linux-ubuntu-2004&tabs=dotnet8
+
+To run the client and server, nagivate into the ``/Server/`` directory in two separate terminals, then run the following commands:
+
+
+```dotnet run -c Server start```
+
+```dotnet run -c Client hello```
+
+# Directory Guide
+
+## api/v1/
+
+This directory holds a .NET project that includes configuration for the service itself in ``Proto/api.proto``. 
+
+The ``Client/Client.cs`` function returns a new client, registered with interceptors.
+
+### Interceptor
+
+The directory currently includes the interceptors for testing purposes; in deployment, the interceptors would be in a separate dotnet package that gets imported in the .csproj file. The interceptors are all part of the AKSMiddleware namespace, which is how they get imported in other files (such as ``Server/Internal/Server/Server.cs`` and ``api/v1/Client/Client.cs``).
+
+``DefaultServerInterceptors`` and ``DefaultClientInterceptors`` each return a list of interceptors that the client and server register themselves. Currently, the server receives the RequestId, CtxLogger, and ServerLoggerInterceptor interceptors. The RequestId interceptor looks for a requestid in the current ServerCallContext; if it doesn't find one, it adds a new one to the context, as well as to the LogContext. CtxLogger adds method and request fields to the LogContext. ServerLoggerInterceptor is taken from the documentation for .NET gRPC Interceptors, but is the jumping off point for creating the API Autologger (includes timing, logging after the end of the call).
+
+The client currently receives duplicate interceptors to test the functionality of registering a list of interceptors. ClientLoggerInterceptor is taken from the documentation for .NET gRPC Interceptors, and it contains functionality for logging the request, as well as adding metadata to the client context.
+
+
+## Server/
+
+This directory holds a .NET project that builds and runs a Server and a Client for the gRPC service. This project imports the api/v1 project in the ``GrpcGreeter.csproj`` file.
+
+### cmd/
+
+The ``cmd`` directory holds the entry point for the Client and Server services. The ``GrpcGreeter.csproj`` file holds configurations for the separate Client/Server, including which files get compiled and run for each command.
+
+``cmd/Server`` holds a basic entry point for the Server to run the Serve function, which is found in ``Server/Internal/Server/Server.cs``. 
+
+``cmd/Client`` holds the entry point for the Client. In ``Start.cs``, a new client is created using the ``NewClient`` function from ``api/v1/Client/Client.cs``. ``Start.cs`` also defines and calls the ``hello()`` function, effectively sending a HelloRequest to the Server.
+
+### Internal/LogAttrs
+
+``LogAttrs`` adds new properties to a logger, using Serilog Enrichment. These properties will be propagated throughout the entire application.
+
+### Internal/Server
+
+This directory holds the code to run the gRPC server.
+
+``Server.cs`` creates logging configuration for the server, injects the logger and other properties into the Dependency Injection container, and builds & starts the service.
+
 
 ## Contributing
 

@@ -1,0 +1,282 @@
+using System;
+using System.Globalization;
+using System.Threading.Tasks;
+using System.CommandLine;
+using System.CommandLine.Invocation;
+using System.CommandLine.NamingConventionBinder;
+using Google.Protobuf.WellKnownTypes;
+
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Formatting.Compact;
+using Serilog.Templates;
+
+using ServiceHub.MyGreeterCsharp;
+using Grpc.Net.Client;
+using Grpc.Core;
+
+using AKSMiddleware;
+using LogAttrs;
+
+namespace Client;
+
+public class ClientOptions
+{
+    public string? RemoteAddr { get; set; }
+    public string? HttpAddr { get; set; }
+    public bool JsonLog { get; set; }
+    public string? Name { get; set; }
+    public int Age { get; set; }
+    public string? Email { get; set; }
+    public string? Address { get; set; }
+    public long IntervalMilliSec { get; set; }
+    public string? RgName { get; set; }
+    public string? RgRegion { get; set; }
+    public bool CallAllRgOps { get; set; }
+}
+
+
+public static class StartCommand
+{
+    public static Command Execute()
+    {
+        var remoteAddrOption = new Option<string>(
+            "--remote-addr",
+            description: "The remote server's address for this client to connect to",
+            getDefaultValue: () => "localhost:50051");
+
+        var httpAddrOption = new Option<string>(
+            "--http-addr",
+            description: "The remote HTTP gateway address",
+            getDefaultValue: () => "http://localhost:50061");
+
+        var jsonLogOption = new Option<bool>(
+            "--json-log",
+            description: "Enables JSON format for logs (human readable key-value pairs)",
+            getDefaultValue: () => false);
+
+        var nameOption = new Option<string>(
+            "--name",
+            description: "The name to send in Hello request",
+            getDefaultValue: () => "MyName");
+
+        var ageOption = new Option<int>(
+            "--age",
+            description: "The age to send in Hello request",
+            getDefaultValue: () => 53);
+
+        var emailOption = new Option<string>(
+            "--email",
+            description: "The email to send in Hello request",
+            getDefaultValue: () => "test@test.com");
+
+        var addressOption = new Option<string>(
+            "--address",
+            description: "The address to send in Hello request",
+            getDefaultValue: () => "123 Main St, Seattle, WA 98101");
+
+        var intervalMilliSecOption = new Option<long>(
+            "--interval-milli-sec",
+            description: "The interval between two requests. Negative numbers mean sending one request.",
+            getDefaultValue: () => -1);
+
+        var rgNameOption = new Option<string>(
+            "--rg-name",
+            description: "The name of the resource group",
+            getDefaultValue: () => "MyGreeterCsharp-resource-group");
+
+        var rgRegionOption = new Option<string>(
+            "--rg-region",
+            description: "The region of the resource group",
+            getDefaultValue: () => "eastus");
+
+        var callAllRgOpsOption = new Option<bool>(
+            "--call-all-rg-ops",
+            description: "Call all resource group operations",
+            getDefaultValue: () => true);
+
+        var startCommand = new Command("hello", "Call SayHello")
+        {
+            remoteAddrOption,
+            httpAddrOption,
+            jsonLogOption,
+            nameOption,
+            ageOption,
+            emailOption,
+            addressOption,
+            intervalMilliSecOption,
+            rgNameOption,
+            rgRegionOption,
+            callAllRgOpsOption
+        };
+
+        startCommand.Handler = CommandHandler.Create<ClientOptions>(hello);
+
+        return startCommand;
+    }
+
+    // hello is a client function that configures logging, creates a new client, and calls the SayHello function
+    public static async Task hello(ClientOptions options)
+    {
+
+        // Serilog configuration
+        var loggerConfiguration = new LoggerConfiguration()
+            .Enrich.FromLogContext()
+            .Enrich.With<LogAttrs.CustomAttributeEnricher>();
+
+        if (options.JsonLog)
+        {
+            loggerConfiguration = loggerConfiguration.WriteTo.Console(new ExpressionTemplate(
+                "{ {time: @t, level: if @l = 'Information' then 'INFO' else if @l = 'Error' then 'ERROR' else if @l = 'Warning' then 'WARN' else if @l = 'Debug' then 'DEBUG' else if @l = 'Verbose' then 'VERBOSE' else if @l = 'Fatal' then 'FATAL' else @l, msg: @m, EX: @x, location: @Location, ..@p} }\n"));
+        }
+        else
+        {
+            loggerConfiguration = loggerConfiguration.WriteTo.Console(outputTemplate: "{Timestamp} [{Level}] {Message} {CustomAttributes:lj}{Properties}{NewLine}{Exception}");
+        }
+
+        Log.Logger = loggerConfiguration.CreateLogger();
+
+        var client = Client.ClientFactory.NewClient(options.RemoteAddr!, Log.Logger);
+
+        if (options.IntervalMilliSec < 0)
+        {
+            await SayHello(client, options.Name!, options.Age!, options.Email!, options.Address!, options);
+        }
+        else
+        {
+            while (true)
+            {
+                await SayHello(client, options.Name!, options.Age!, options.Email!, options.Address!, options);
+                await Task.Delay((int)options.IntervalMilliSec!);
+            }
+        }
+    }
+
+    // SayHello is a client function that calls the SayHello RPC as well as the Azure SDK resource group CRUDL operations
+    private static async Task SayHello(MyGreeterCsharp.MyGreeterCsharpClient client, string name, int age, string email, string address, ClientOptions options)
+    {
+
+        string[] addressParts = address.Split(',');
+        string street = addressParts[0].Trim();
+        string city = addressParts[1].Trim();
+        string[] stateAndZip = addressParts[2].Trim().Split(' ');
+        string state = stateAndZip[0];
+        string zipString = stateAndZip[1];
+        int zipCode = Convert.ToInt32(zipString);
+
+        var addr = new Address
+        {
+            Street = street,
+            City = city,
+            State = state,
+            Zipcode = zipCode
+        };
+
+        var helloRequest = new HelloRequest
+        {
+            Name = name,
+            Age = age,
+            Email = email,
+            Address = addr
+        };
+
+        try
+        {
+            var reply = await client.SayHelloAsync(helloRequest);
+            Log.Information("Greeting: {Message}", reply.Message);
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling SayHello: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Error: {Message}", ex.Message);
+        }
+
+        try
+        {
+            var reply = await client.CreateResourceGroupAsync(new CreateResourceGroupRequest
+            {
+                Name = options.RgName,
+                Region = options.RgRegion
+            });
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling CreateResourceGroup: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Error: {Message}", ex.Message);
+        }
+
+        try
+        {
+            var response = await client.ListResourceGroupsAsync(new Empty());
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling ListResourceGroup: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Error calling ListResourceGroup: {ex.Message}");
+        }
+
+        try
+        {
+            var response = await client.ReadResourceGroupAsync(new ReadResourceGroupRequest
+            {
+                Name = options.RgName
+            });
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling ReadResourceGroup: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Error calling ReadResourceGroup: {ex.Message}");
+        }
+
+        try
+        {
+            var tags = new Dictionary<string, string>
+            {
+                { "key1", "value1" },
+                { "key2", "value2" }
+            };
+
+            var response = await client.UpdateResourceGroupAsync(new UpdateResourceGroupRequest
+            {
+                Name = options.RgName,
+                Tags = { tags }
+            });
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling UpdateResourceGroup: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Error calling UpdateResourceGroup: {ex.Message}");
+        }
+
+        try
+        {
+            var response = await client.DeleteResourceGroupAsync(new DeleteResourceGroupRequest
+            {
+                Name = options.RgName
+            });
+        }
+        catch (RpcException ex)
+        {
+            Log.Error($"gRPC Error calling DeleteResourceGroup: {ex.Status.Detail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Error calling DeleteResourceGroup: {ex.Message}");
+        }
+    }
+}
